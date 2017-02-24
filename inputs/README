@@ -1,0 +1,44 @@
+This directory contains a collection of inputs of the thermo_pw code.
+It is divided in subdirectories. The name of each subdirectory should suggest
+its content, but see also some information below.  
+
+After running the script provided in each example, you can see the Brillouin 
+zone with the asymptote package (http://asymptote.sourceforge.net/) running
+the command:
+ 
+asy -V asy_tmp.asy 
+
+To see the crystal structure you can use the xcrysden package 
+(http://www.xcrysden.org/) and read the pw.x input file.
+
+xcrysden --pwi pw_input_file
+
+List of presently available structures and examples:
+
+struct. crystal fun  bz    ke    murn  bands   disp  el_cons   anhar
+
+A1       fcc-Al  pz  *      *     *      *      *       *        *         
+A2       bcc-Nb  pz  *                                 
+A3       hcp-Be  pz  *                                 
+A4       C       pz  *      *     *      *      *       *        *
+
+B1       NaCl    pz  *      *     *      *              *      
+B3       SiC     pz  *      *     *      *      *       *        *                  
+
+
+This directory uses the pseudopotentials of pslibrary.1.0.0. In order
+to use it, you must change the PSEUDO_DIR variable (inside the 
+environment_variables file in the main QE directory) to point to the 
+directory that contains the UPF files of the pseudopotentials for the pz 
+functional. You can find pslibrary.1.0.0 at the web page:
+http://www.qe-forge.org/gf/project/pslibrary/
+
+Note also that the scripts in this directory use the variables
+PARA_IMAGE_PREFIX and PARA_IMAGE_POSTFIX to launch thermo_pw.x. 
+You have to change these variables in the environment_variables file
+to set the number of processors and the number of images used in your run.
+
+The inputs in this directory are supposed to give reasonably representative 
+results. Therefore, some of them, expecially dispersions or calculation of 
+anharmonic properties, might require a significant amount of CPU time to run.
+Some results have been obtained using parallel machines.

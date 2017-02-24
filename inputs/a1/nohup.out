@@ -1,0 +1,128 @@
+
+/egr/research-cmdgroup/santiama/qe6/thermo_pw/inputs/a1 : starting
+
+This example applies thermo_pw.x to Al a solid with an fcc a1 structure
+
+
+  executables directory: /egr/research-cmdgroup/santiama/qe6/bin
+  pseudo directory:      /egr/research-cmdgroup/santiama/qe6/pseudo
+  temporary directory:   /egr/research-cmdgroup/santiama/qe6/tempdir
+  checking that needed directories and files exist...
+Downloading Al.pz-n-kjpaw_psl.1.0.0.UPF to /egr/research-cmdgroup/santiama/qe6/pseudo... done
+
+  running thermo_pw.x as: mpirun -np 4 /egr/research-cmdgroup/santiama/qe6/bin/thermo_pw.x -ni 2  -nk 1 -nd 1 -nb 1 -nt 1 
+
+  cleaning /egr/research-cmdgroup/santiama/qe6/tempdir... done
+  running the scf calculation for Al...application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+Error condition encountered during test: exit status = 1
+Aborting
+
+/egr/research-cmdgroup/santiama/qe6/thermo_pw/inputs/a1 : starting
+
+This example applies thermo_pw.x to Al a solid with an fcc a1 structure
+
+
+  executables directory: /egr/research-cmdgroup/santiama/qe6/bin
+  pseudo directory:      /egr/research-cmdgroup/santiama/qe6/pseudo
+  temporary directory:   /egr/research-cmdgroup/santiama/qe6/tempdir
+  checking that needed directories and files exist...
+Downloading Al.pz-n-kjpaw_psl.1.0.0.UPF to /egr/research-cmdgroup/santiama/qe6/pseudo... done
+
+  running thermo_pw.x as: mpirun -np 4 /egr/research-cmdgroup/santiama/qe6/bin/thermo_pw.x -ni 2  -nk 1 -nd 1 -nb 1 -nt 1 
+
+  cleaning /egr/research-cmdgroup/santiama/qe6/tempdir... done
+  running the scf calculation for Al...forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+thermo_pw.x        000000000105CB29  Unknown               Unknown  Unknown
+thermo_pw.x        000000000105B3FE  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000FF9022  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F8D0D3  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F944C9  Unknown               Unknown  Unknown
+libpthread.so.0    00007F27AD20B7E0  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000FF77BD  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000EEFFD5  iotk_write_end_x_         462  iotk_write.f90
+thermo_pw.x        0000000000A1426B  qexml_module_mp_q        1888  qexml.f90
+thermo_pw.x        000000000068114E  pw_restart_mp_pw_         486  pw_restart.f90
+thermo_pw.x        000000000067F1D0  punch_                    103  punch.f90
+thermo_pw.x        000000000041BB2D  do_pwscf_                 177  do_pwscf.f90
+thermo_pw.x        0000000000408C83  MAIN__                    269  thermo_pw.f90
+thermo_pw.x        0000000000406926  Unknown               Unknown  Unknown
+libc.so.6          00007F27ACC02D1D  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000406819  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+thermo_pw.x        000000000105CB29  Unknown               Unknown  Unknown
+thermo_pw.x        000000000105B3FE  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000FF9022  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F8D0D3  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F944C9  Unknown               Unknown  Unknown
+libpthread.so.0    00007F886D1427E0  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D82C9D8  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D8266E7  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D915917  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D915673  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D90EFB3  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D80E6BB  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D80E1A6  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D80FDB2  Unknown               Unknown  Unknown
+libmpi.so.4        00007F886D80FB51  Unknown               Unknown  Unknown
+libmpigf.so.4      00007F886DDEA51B  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000A012F8  bcast_real_                37  mp_base.f90
+thermo_pw.x        00000000009E0E07  mp_mp_mp_bcast_rm         377  mp.f90
+thermo_pw.x        00000000004071C3  MAIN__                    326  thermo_pw.f90
+thermo_pw.x        0000000000406926  Unknown               Unknown  Unknown
+libc.so.6          00007F886CB39D1D  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000406819  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+thermo_pw.x        000000000105CB29  Unknown               Unknown  Unknown
+thermo_pw.x        000000000105B3FE  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000FF9022  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F8D0D3  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F944C9  Unknown               Unknown  Unknown
+libpthread.so.0    00007F16005DA7E0  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CC4D59  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CBE6E7  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600DAD917  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600DAD673  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600DA6FB3  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CA66BB  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CA61A6  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CA7DB2  Unknown               Unknown  Unknown
+libmpi.so.4        00007F1600CA7B51  Unknown               Unknown  Unknown
+libmpigf.so.4      00007F160128251B  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000A012F8  bcast_real_                37  mp_base.f90
+thermo_pw.x        00000000009E0E07  mp_mp_mp_bcast_rm         377  mp.f90
+thermo_pw.x        00000000004071C3  MAIN__                    326  thermo_pw.f90
+thermo_pw.x        0000000000406926  Unknown               Unknown  Unknown
+libc.so.6          00007F15FFFD1D1D  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000406819  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+thermo_pw.x        000000000105CB29  Unknown               Unknown  Unknown
+thermo_pw.x        000000000105B3FE  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000FF9022  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F8D0D3  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000F944C9  Unknown               Unknown  Unknown
+libpthread.so.0    00007F68A826F7E0  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A89599E4  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A89536E7  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A8A42917  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A8A42673  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A8A3BFB3  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A893B6BB  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A893B1A6  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A893CDB2  Unknown               Unknown  Unknown
+libmpi.so.4        00007F68A893CB51  Unknown               Unknown  Unknown
+libmpigf.so.4      00007F68A8F1751B  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000A014F8  bcast_integer_             37  mp_base.f90
+thermo_pw.x        00000000009DF2E9  mp_mp_mp_bcast_i1         293  mp.f90
+thermo_pw.x        0000000000B0BE62  xml_io_base_mp_cr          67  xml_io_base.f90
+thermo_pw.x        00000000005FF8A2  io_rho_xml_mp_wri         213  io_rho_xml.f90
+thermo_pw.x        000000000068207D  pw_restart_mp_pw_         560  pw_restart.f90
+thermo_pw.x        000000000067F1D0  punch_                    103  punch.f90
+thermo_pw.x        000000000041BB2D  do_pwscf_                 177  do_pwscf.f90
+thermo_pw.x        0000000000408C83  MAIN__                    269  thermo_pw.f90
+thermo_pw.x        0000000000406926  Unknown               Unknown  Unknown
+libc.so.6          00007F68A7C66D1D  Unknown               Unknown  Unknown
+thermo_pw.x        0000000000406819  Unknown               Unknown  Unknown

@@ -1,0 +1,94 @@
+29/08/2016 Version 0.6.0 of thermo_pw is now frozen.
+
+New in version 0.6.0
+
+Added a set of scripts to test a pseudopotential library (see pseudo_test).
+
+Added some new routines in the point_group module.
+
+Introduced the option what='elastic_constant_t' to compute the elastic
+constants at several geometries and to obtain their temperature dependence
+through the quasistatic approximation.
+
+The output files have been reorganized in subdirectories. 
+
+23/04/2016 Version 0.5.0 of thermo_pw is now frozen.
+
+New in version 0.5.0
+
+Added a module to calculate the thermodynamic properties of a gas of
+independent electrons (only for metals).
+
+Added the options what='scf_dos' and what='mur_lc_dos' to compute and plot 
+the electronic density of states.
+
+Added a few routines that compute the inverse of the complex dielectric 
+constant at a complex frequency and a finite wave vector q solving the 
+self-consistent Sternheimer equation.
+
+Added a few routines that complement the phonon code and compute the
+complex dielectric constant at a complex frequency solving the  
+(self-consistent) Sternheimer equation.
+
+Added a routine epsilon_tpw.x to calculate the complex dielectric constant
+with sums over the empty states.
+
+23/01/2016 Version 0.4.0 of thermo_pw is now frozen.
+
+New in version 0.4.0
+
+Added the possibility to fit the energy with a fourth order polynomial.
+
+Improved the recover abilities of the code.
+
+Added support for the calculation of the X-ray diffraction spectra. 
+
+Started to implement finite pressure calculations.
+
+Thermal expansion from Gruneisen parameters for hexagonal, tetragonal, and
+orthorombic solids (experimental).
+
+In phonon calculations the bands are calculated only when needed, not
+for each representation.
+
+Introduced support for the Debye model. 
+
+Increased the maximum allowed number of steps in ionic relaxations.
+
+Introduced a minium strain in the calculation of elastic constants.
+
+Introduced a tool that reads the elastic constants of a solid and
+computes the Voigt-Reuss-Hill averages separately from the main code.
+
+
+23/06/2015 Version 0.3.0 of thermo_pw is now frozen.
+
+New in version 0.3.0:
+
+ Found a bug that influenced the calculation of anharmonic properties.
+
+ Introduced support for the thermal expansion of hexagonal, tetragonal
+ and orthorhombic solids.
+
+ Added the possibility to plot the phonon frequencies and the Gruneisen
+ parameters at a geometry that corresponds to a given temperature.
+
+ Introduced other two algorithms to compute the elastic constants.
+
+13/03/2015    Version 0.2.0 of thermo_pw is now frozen.
+
+New in version 0.2.0:
+    Started a collection of interesting inputs for the thermo_pw package.
+
+    Introduced the group-subgroup relation to join the bands at the
+    edges of the path.
+    Written a small manual to intepret the color codes of the bands and
+    of the phonon dispersions.
+
+    Introduced the possibility to plot the surface band structure.
+
+    Introduced some tools to work with space groups and to generate
+    supercells, slabs, and ribbons.
+
+28/11/2014    Version 0.1.0 of thermo_pw is now frozen.
+

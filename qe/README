@@ -1,0 +1,108 @@
+This directory contains few routines of Quantum ESPRESSO that need to
+be modified to be used in thermo_pw.
+
+Presently they are:
+
+electrons_tpw: contains a call to asyn_master to have the master check for
+                 slaves that need further work at each electron iteration.
+
+solve_linter_tpw: contains a call to asyn_master to have the master check for
+                 slaves that need further work at each phonon iteration.
+
+phqscf_tpw : call solve_linter_tpw instead of solve_linter
+
+prepare_q_tpw: use the variable tcollect_all to avoid the calculation of
+the bands in the final run that collects all the dynamical matrices.
+
+run_nscf_tpw : call set_small_group_q also in the lgamma_iq case. This change
+               can probably be done also in the phonon, but it is tested here
+               before changing qe. Set lscf to .false. because thermo_pw
+               reads the input of pw that sets lscf or can do a scf calculation
+               that sets this variable.
+
+do_phonon_tpw : call phqscf_tpw instead of phqscf and prepare_q_tpw instead
+            of prepare_q.
+
+phescf_tpw : call the more general routine solve_e_fpolc in the case of finite
+             frequency instead of solve_e_fpol.
+
+ccg_psi_tpw : uses the new conventions for the noncollinear case.
+
+phq_summary_tpw : summarize the frequencies in complex form
+
+initialize_ph_tpw.f90 : calls the new routine phq_summary_tpw
+
+adddvepsi_us_tpw.f90 : added the number of occupated bands as an input.
+
+ev_xml : is identical to the QE routine, but it is copied here because files
+         in the PW/tools directory are not linked to thermo_pw.
+
+read_dyn_from_file : in the routine of PH there is an implicit dependence
+         on first. The routine makes two different things if it is called
+         for the first time. Since thermo_pw calls this routine for several
+         geometry, the first file of each geometry should be considered as
+         first. Removed the dependence on first.
+
+usnldiagq.f90 generalizes usnldiag.f90. It computes the diagonal elements 
+              of the Hamiltonian at k+q (except the kinetic energy).
+
+This directory contains also some routines that are new, or generalize
+those of QE. They are still experimental.
+
+solve_e_fpolc.f90 : equivalent of solve_e, but computes the +w and -w
+                    frequencies. Used to compute the complex
+                    macroscopic dielectric constant at finite frequency.
+
+apply_ac.f90
+Apply H-eS-wS+a_c Q to a generic function, with the new conventions
+required by the linear solvers. The c indicates a non Hermitian matrix 
+(used when omega /=0 is complex).
+
+scal_prod.f90 Makes the scalar products between wavefunctions.
+Nedeed by the linear solver routines.
+
+polarizc.f90     ! computes the complex polarizability and writes it on
+                 ! output.
+
+pheqscf.f90      ! compute the susceptibility at finite q and frequency.
+
+
+set_intq_nc.f90        !
+compute_intq.f90       !  These routines compute the integral of the 
+transform_intq_nc.f90  !  augmentation function and e^iqr for the study of
+transform_intq_so.f90  !  EELS with US PPs or PAW
+                       !
+
+solve_eq.f90      : This routine computes the charge-charge susceptibility
+                    at finite q and frequency and the inverse of the
+                    dielectric constant.
+
+orthogonalize_omega.f90 : generalize orthogonalize for the case of
+                          metals at finite frequency w when the alpha_pv 
+                          term is included.
+
+paw_add_symmetry.f90   : symmetrize the PAW term in the case of a e^iqr
+                         perturbation.
+
+dveqpsi_us.f90       ! computes e^iqr |psi_n>
+dveqpsi_us_only.f90  ! computes the US contribution to e^iqr K |psi_kn>
+
+addusddenseq.f90   ! add the augmentation charge in the case of a single
+                   ! e^iqr perturbation.
+
+psyme_fpol.f90     ! parallel driver of the following
+syme_fpol.f90      ! similar to syme.f90, but used in the optical case
+                   ! does not assume that the potential is real.
+
+psymeq.f90         ! parallel driver of the following
+symeq.f90          ! similar to syme_fpol.f90, but used for EELS and
+                   ! symmetrize only one susceptibility.
+
+psym_dmage_fpol.f90 ! parallel driver of the following
+sym_dmage_fpol.f90  ! similar to sym_dmag.f90, but used in the optical case
+                      does not assume that the potential is real.
+
+psym_dmageq.f90   ! parallel driver of the following
+sym_dmageq.f90    ! similar to sym_dmage.f90, but used for EELS and only
+                    one perturbation is made.
+

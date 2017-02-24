@@ -1,0 +1,6 @@
+ &INPUT_THERMO
+  what='mur_lc_t',
+  deltat=1
+  tmin=10
+  tmax=660
+ /

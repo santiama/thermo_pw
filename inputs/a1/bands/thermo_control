@@ -1,0 +1,4 @@
+ &INPUT_THERMO
+  what='mur_lc_bands',
+  emax_input=10.,
+ /

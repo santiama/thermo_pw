@@ -1,0 +1,11 @@
+*.wfc*
+*.xml
+*.UPF
+*.save/
+*.phsave/
+_ph0/
+restart/
+*.paw
+*.bfgs
+*.igk*
+*.update

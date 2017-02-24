@@ -1,0 +1,7 @@
+ &inputph
+  tr2_ph=1.0d-12,
+  prefix='aluminum',
+  fildyn='al.dyn.xml',
+  ldisp=.TRUE.
+  nq1=4, nq2=4, nq3=4,
+/

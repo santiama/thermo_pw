@@ -1,0 +1,1796 @@
+%!
+%! Copyright (C) 2014-2015 Andrea Dal Corso 
+%! This file is distributed under the terms of the
+%! GNU General Public License. See the file `License'
+%! in the root directory of the present distribution,
+%! or http://www.gnu.org/copyleft/gpl.txt .
+%!
+\documentclass[12pt,a4paper]{article}
+\def\version{0.6.0}
+\def\qe{{\sc Quantum ESPRESSO}}
+\def\tpw{{\sc THERMO\_PW}}
+
+\usepackage{html}
+\usepackage{color}
+
+\usepackage{graphicx}
+
+\definecolor{web-blue}{rgb}{0,0.5,1.0}
+\definecolor{coral}{rgb}{1.0,0.5,0.3}
+\definecolor{red}{rgb}{1.0,0,0.0}
+\definecolor{green}{rgb}{0.,1.0,0.0}
+
+\textwidth = 17cm
+\textheight = 24cm
+\topmargin =-1 cm
+\oddsidemargin = 0 cm
+
+\def\pwx{\texttt{pw.x}}
+\def\phx{\texttt{ph.x}}
+\def\configure{\texttt{configure}}
+\def\PWscf{\texttt{PWscf}}
+\def\PHonon{\texttt{PHonon}}
+\def\thermo{\texttt{thermo\_pw}}
+\def\make{\texttt{make}}
+
+\begin{document} 
+\author{Andrea Dal Corso (SISSA - Trieste)}
+\date{}
+
+%\def\SissaImage{./sissa_on_white.png}
+
+\title{
+%  \includegraphics[width=6cm]{\SissaImage}\\
+  \vskip 1cm
+  {\color{red} \Huge \tpw\ User's Guide} \\
+  \Large (version \version)
+}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{\color{coral}Introduction}
+
+This guide covers the installation and usage of the \thermo\ package. 
+It assumes that you have some familiarity with the \qe\ package. 
+If not please consult the web site: \texttt{http://www.quantum-espresso.org}.
+
+\thermo\ is a \texttt{FORTRAN} code that computes material properties.
+It can be considered as a set of drivers that,
+at low level, call the \qe\ routines and, at high level, have post-processing 
+tools that convert the output of \qe\ routines into plots of material 
+properties directly comparable with experiment.
+
+\thermo\ has the following directory structure, contained in a subdirectory 
+\texttt{thermo\_pw/} that should be put in the main directory of the \qe\ tree:
+
+\begin{tabular}{ll}
+\texttt{Doc/}      & : contains this user\_guide and other documentation\\
+\texttt{examples/} & : some running examples \\
+\texttt{inputs/}   & : a collection of useful inputs \\
+\texttt{pseudo\_test/} & : a collection of inputs to test a pseudopotential library\\
+\texttt{lib/}      & : source files for modules used by \thermo\ \\
+\texttt{src/}      & : source files for \thermo\ \\
+\texttt{tools/}    & : source files for auxiliary tools \\
+\end{tabular}\\
+
+The \thermo\ package can calculate the following quantities:
+\begin{itemize}
+\item Plot of the Brillouin zone (the structure can be seen by reading the
+input of \thermo\ by the \texttt{XCrySDen} program).
+
+\item Plot of the X-rays powder diffraction pattern of the input crystal.
+
+\item Total energy at fixed geometry.
+
+\item Total energy as a function of the kinetic energy cut-off.
+
+\item Total energy as a function of {\bf k}-points and smearing.
+
+\item Electronic band structure at fixed geometry.
+
+\item Electronic density of states at fixed geometry.
+
+\item Electronic heat capacity as a function of temperature (for metals only).
+
+\item Complex dielectric constant as a function of the complex
+frequency $\omega$ at fixed geometry.
+
+\item Inverse dielectric constant at a given wavevector {\bf q} as a function 
+of the complex frequency $\omega$ at fixed geometry.
+
+\item Phonon frequencies at fixed geometry.
+
+\item Phonon dispersions at fixed geometry and computation of the harmonic
+thermodynamic properties: vibrational energy, vibrational free energy,
+vibrational entropy, and constant volume heat capacity as a function of
+temperature.
+
+\item Frozen ions and total elastic constants at fixed geometry.
+
+\item Fit of the total energy as a function of the lattice parameters with
+a quadratic or quartic polynomial and determination of equilibrium lattice 
+parameters.  Murnaghan fit for cubic systems.
+
+\item Electronic band structure at the minimum of the total energy.
+
+\item Electronic density of states at the minimum of the total energy.
+
+\item Complex dielectric constant as a function of the complex
+frequency $\omega$ at the minimum of the total energy.
+
+\item Inverse dielectric constant at a given wavevector {\bf q} as a function 
+of the complex frequency $\omega$ at the minimum of the total energy.
+
+\item Phonon frequencies at the minimum of the total energy.
+
+\item Phonon dispersions and harmonic thermodynamic quantities
+at the minimum of the total energy.
+
+\item Frozen ions and total elastic constants at the minimum of the total
+energy.
+
+\item Anharmonic properties within the quasi-harmonic approximation: 
+lattice parameters, thermal expansion tensor, volume, volume thermal 
+expansion, and constant strain heat capacity as a function of temperature; 
+phonon frequencies and mode Gr\"uneisen parameters interpolated at a given
+geometry or at the equilibrium geometry at a given temperature
+(limited to cubic, tetragonal, orthorhombic, and hexagonal systems).
+Bulk modulus and pressure derivative of the bulk modulus, isobaric heat 
+capacity, isoentropic bulk modulus, and average Gr\"uneisen parameter as 
+a function of temperature (limited to cubic systems).
+
+\item Surface band structure identification and plot of the projected bulk
+band structure.
+
+\end{itemize}
+
+\thermo\ can run on both serial and parallel machines using all 
+the parallellization options of \qe. Moreover, \thermo\ can run using 
+several images.
+When possible, the image parallelization is used in an asynchronous way.
+One processor takes the role of master and distributes the work 
+to all the images that carry it out independently. Presently 
+the total energies of several geometries for the determination of the 
+equilibrium geometry are calculated in parallel when
+there are several images. Stresses or total energies at different strained 
+geometries needed for the calculation of the elastic constants are 
+calculated in parallel. 
+The phonon calculations are carried out in parallel, each image doing one 
+representation of a {\bf q} point.
+
+\section{\color{coral}People}
+The \thermo\ code is designed, written, and maintained by Andrea Dal Corso 
+(SISSA - Trieste). It is an open source code distributed, as is, within the GPL
+license.  
+
+\section{\color{coral}Installing, Compiling, and Running}
+
+\subsection{\color{web-blue}Installing}
+
+\thermo\ is a package tightly bound to \qe. It cannot be compiled without
+it. For instruction on how to download and compile \qe, please 
+refer to the general User's Guide, available in file \texttt{Doc/user\_guide.pdf}
+under the main \qe\ directory, or in the web site 
+\texttt{http://www.quantum-espresso.org}.
+When \qe\ is correctly configured, you need to download the \PHonon\ 
+package. This can be done automatically typing \texttt{make ph} in
+the main \qe\ directory.
+
+At this point you need the source code of the \thermo\ package. 
+\texttt{Thermo\_pw} can be downloaded from the 
+\texttt{qe-forge} website at \texttt{http://www.qe-} 
+\texttt{forge.org/gf/project/thermo\_pw/}, by clicking on the \texttt{Files}
+section and downloading one of the \texttt{.tar.gz} files.
+The versions of \texttt{thermo\_pw} and of \qe\ must be carefully matched
+as illustrated in Table 1. 
+There is no \texttt{thermo\_pw} package for the versions of \qe\ not listed 
+there. Unpacking the \texttt{.tar.gz} files in the main \qe\ directory, for
+instance with the command \texttt{tar -xzvf thermo\_pw.0.5.0.tar.gz}, you
+obtain a directory \texttt{thermo\_pw} with the source files. \\
+It is also possible to download the \texttt{CVS} version of 
+\texttt{thermo\_pw} as described at
+the web page: \texttt{http://www.qe-} \texttt{forge.org/gf/project/thermo\_pw/scmcvs/?action=AccessInfo}.
+Usually the CVS version of \texttt{thermo\_pw} contains the most recent
+features and bug fixes but it might work only with the \texttt{SVN} 
+version of \qe\ and its use is not advised.
+Please read the web page: 
+\texttt{http://people.sissa.it/\textasciitilde dalcorso/thermo\_pw\_help.html} 
+to have updated information about the compatibility between the \texttt{CVS} 
+version of \texttt{thermo\_pw} and \qe\ or if you have problems downloading
+the \texttt{CVS} version of \texttt{thermo\_pw}.
+This page contains also information on critical bugs found in the 
+\texttt{thermo\_pw} packages and should be consulted before using 
+\texttt{thermo\_pw}.
+
+\begin{center}
+\begin{table}
+\begin{tabular}{ll}
+\hline
+\hline
+\texttt{thermo\_pw} & \qe  \\
+\hline
+0.6.0 & 6.0.0 \\
+0.5.0 & 5.4.0 \\
+0.4.0 & 5.3.0 \\
+0.3.0 & 5.2.1, 5.2.0 \\
+0.2.0 & 5.1.2 \\
+0.1.0 & 5.1.1 \\
+\hline
+\hline
+\end{tabular}
+\caption{Compatibility between the versions of 
+\texttt{thermo\_pw} and of \texttt{QE}.}
+\end{table}
+\end{center}
+
+\subsection{\color{web-blue}Compiling}
+
+In order to compile \thermo\ the main \texttt{Makefile} and the files
+\texttt{install/makedeps.sh} and \texttt{install/plugins\_makefile}
+of \qe\ need to be changed. Just enter in the \texttt{thermo\_pw}
+directory and give the command \texttt{make join\_qe}. This command exchanges
+the files contained in \texttt{thermo\_pw} with those of the \qe\ package.
+Typing \texttt{make thermo\_pw} from the main \qe\ directory, or \texttt{make} 
+from the \texttt{thermo\_pw}\ directory, produces the executable
+\texttt{thermo\_pw/src/thermo\_pw.x} that can be found in the 
+\qe\ \texttt{bin/} directory. A few other tool codes are produced as well
+and linked in the \texttt{bin/} directory of \qe.
+
+\thermo\ has been written on a PC with Linux operating system using the
+\texttt{gfortran} compiler with \texttt{openMPI} parallelization. It has
+been run in parallel on a Linux cluster with several hundreds processors.
+It has been tested with \texttt{Intel/15.0} + \texttt{mkl/11.2} +
+\texttt{openMPI} and with \texttt{Intel/13.1} + \texttt{mkl/11.2} +
+\texttt{openMPI/1.6.5}.
+Any other combination of computer/operating system has not been tested, but 
+usually \thermo\ runs on the same systems where \qe\ runs. 
+
+\subsection{\color{web-blue}Searching help and reporting bugs}
+If you have problems installing \texttt{thermo\_pw} or if you need help
+with some of its features, please subscribe to the \texttt{thermo\_pw-forum}
+mailing list and report there your problems. Requests for the implementation 
+of new features are also welcome. If you think to have found a bug 
+in \texttt{thermo\_pw} you can report it to the mailing list or 
+write directly to me at \texttt{dalcorso.at.sissa.it}.
+
+\subsection{\color{web-blue}Uninstalling}
+
+In order to remove \thermo\ from your \qe\ distribution, just enter in the
+\texttt{thermo\_pw} directory and give the command \texttt{make leave\_qe}.
+Then just remove the \texttt{thermo\_pw} directory. 
+
+\subsection{\color{web-blue}Running \thermo}
+
+In order to use the \thermo\ code you need to create a file called
+\texttt{thermo\_control} in your working directory in addition to copy
+there the input of \texttt{pw.x} and, if requested by the task, an
+input of \texttt{ph.x} that must be called \texttt{ph\_control}.
+The input of \texttt{pw.x} can have any name and is given as input to
+the \thermo\ code. It is not necessary to specify an \texttt{outdir} 
+directory in the \texttt{ph.x} input.
+
+A typical command for running the \thermo\ code could be:
+\begin{verbatim}
+mpirun -n np thermo_pw.x -ni ni ... < input_pw > output_thermo_pw
+\end{verbatim}
+where \texttt{np} is the number of processors and \texttt{ni} is the number 
+of images. The dots indicate the other parallelization options that
+you can find in the \qe\ manual.
+
+Note that it is very easy to waste a lot of resources if the number of 
+images is too large. Unused images wait for the working images to complete
+their tasks doing nothing, just wasting cpu-time in an endless loop. 
+Some options 
+do not use the image feature, so you have to know how the calculation 
+is divided and the number of images must not
+be larger than the number of tasks (see below an indication of this number
+for each option). If you have doubts on this point just use one image.
+
+The outputs of the \thermo\ code are one or more \texttt{postscript} files 
+with plots of the material properties. \thermo\ produces also files with 
+the data of 
+the plot and scripts for the \texttt{gnuplot} program. 
+Usually, the user does not need to modify these files, but they allow 
+the improvement of the figures when needed.
+The plot of the Brillouin zone (BZ) is made with the help of the 
+\texttt{asymptote} code. \texttt{Thermo\_pw} produces a script 
+for the \texttt{asymptote} code and can also run it to produce the \texttt{pdf}
+file of the BZ. 
+
+\newpage
+
+\section{\color{coral}Input variables}
+
+The \texttt{pw.x} and \texttt{ph.x} input files are described in the \qe\ documentation.
+In this section we discuss only the creation of the file
+\texttt{thermo\_control}. This file contains a namelist:  
+\begin{verbatim}
+&INPUT_THERMO
+  what=' ',
+  ...
+ /
+\end{verbatim}
+The \texttt{what} variable controls the sequence of calculations made
+by \thermo. For each possible value of \texttt{what}, we discuss briefly the
+input variables that you can use to control the output plots. Usually
+default values of the input variables are sufficient to carry out  
+the basic \thermo\ tasks and you are not supposed to set any variable except
+\texttt{what}, but in some cases these input variables give you more control
+on the calculation and can be used to tune its accuracy.
+
+\thermo\ actually writes on file the data to plot and writes a script to plot
+these data. The output postscript files are produced by invoking the 
+\texttt{gnuplot} program within the code. Usually any modern Linux 
+distribution provides a package to install this code, or has it already 
+installed by default. If not, you can download it from 
+\texttt{http://www.gnuplot.info/}. \\
+Three input variables of \thermo\ control 
+the use of the \texttt{gnuplot} code:
+
+\begin{verbatim}
+lgnuplot    : if .TRUE. gnuplot is called from within the program
+              and the postscript files are immediately available
+              Default: logical .TRUE.
+gnuplot_command  : the command used to call gnuplot.
+              Default: character(len=*) 'gnuplot'
+flgnuplot   : initial part of the name of the files where gnuplot scripts 
+              are written.
+              Default: character(len=*) 'gnuplot.tmp'
+\end{verbatim}
+If you are running \thermo\ on a system that has not \texttt{gnuplot}
+you can disable the production of the postscript files and use some other
+graphical tools to produce the plots from the output data. 
+
+\subsection{\color{web-blue}Temperature and pressure}
+Several quantities in \tpw\ can be calculated as a function of temperature.
+Moreover the equilibrium geometry can be searched at fixed pressure 
+minimizing the enthalpy instead of the energy.
+For the options where these features are active, the values of temperature
+and pressure are controlled by the following variables:
+\begin{verbatim}
+tmin       : minimum temperature.
+             Default: real 1 K
+tmax       : maximum temperature.
+             Default: real 800 K
+deltat     : interval between two temperatures. Be careful with this value
+             because too small or too large values of this parameter could 
+             give numerical errors in the temperature derivatives used to 
+             calculate anharmonic properties.
+             Default: real 3 K
+ntemp      : number of temperatures
+             Default: integer determined from previous data
+pressure   : The external pressure. The crystal parameters are
+             calculated minimizing the enthalpy at this pressure. 
+             Given in kbar units. 
+             Default: real 0.0 kbar
+\end{verbatim}
+Note that when you fix the external pressure, the geometries chosen to 
+fit the enthalpy must be about the minimum geometry at that pressure.
+
+\subsection{\color{web-blue}\texttt{what='scf'}}
+With this option the code computes only the total energy. This is a single
+calculation as if running \texttt{pw.x} with the given input.
+No other input variable is necessary.
+An example of the use of this option can be found in \texttt{example01}. \\
+Number of tasks for this option: \texttt{1}.
+
+\subsection{\color{web-blue}\texttt{what='scf\_ke'}}
+With this option the code makes several self-consistent calculations, 
+in parallel on several images, varying the kinetic energy cut-off for 
+the wavefunctions and for the charge density. 
+In the input of \texttt{pw.x} one specifies the minimum values for these two 
+cut-offs. These values are then increased in fixed intervals controlled by the 
+following variables. The energy is then plotted as a function of the 
+wavefunctions kinetic energy cut-off, a different curve for each value of 
+the charge density cut-off. \\
+The variables that control this option are:
+
+\begin{verbatim}
+nke        : number of kinetic energies tested for the wavefunctions cut-off.
+             Default: integer 5
+deltake    : delta of wavefunctions kinetic energy cut-off in Ry.
+             Default: real 10 Ry
+nkeden     : number of kinetic energies tested for the charge density
+             cut-off.
+             Default: integer 1
+deltakeden : delta of charge density kinetic energy cut-off in Ry.
+             Default: real 100 Ry.
+flkeconv   : name of the file where the data with the total energy as a
+             function of the kinetic energy is written.
+             Default: character(len=*) 'output_keconv.dat'
+flpskeconv : name of the postscript file with the plot of the total energy as
+             a function of the kinetic energy cut-off.
+             Default: character(len=*) 'output_keconv.ps'
+\end{verbatim}
+An example of the use of this option can be found in \texttt{example10}. \\
+Number of tasks for this option: \texttt{nke * nkedens}.
+
+\subsection{\color{web-blue}\texttt{what='scf\_nk'}}
+With this option the code makes several self-consistent calculations, 
+in parallel on several images, varying the size of the {\bf k}-point grid, 
+and optionally for metals the smearing parameter \texttt{degauss}. In the 
+input of \texttt{pw.x} the minimum value of these parameters is given and 
+these values are increased in fixed intervals controlled by the following 
+variables. On output the energy is plotted as a function of the mesh size, 
+one curve for each smearing parameter.\\
+The variables that control this option are:
+
+\begin{verbatim}
+nnk        : the number of different values of nk to test
+             Default: integer 5
+deltank(3) : the interval between nk values. All three values of nk1, nk2, and
+             nk3 are updated simultaneously.
+             Default: integer 2  2  2
+nsigma     : the number of smearing intervals.
+             Default: integer 1 
+deltasigma : the distance between different smearing values.
+             Default: 0.005 Ry
+flnkconv   : file where the data with the k point convergence is written
+             Default: character(len=*) 'output_nkconv.dat'
+flpsnkconv : name of the postscript file with the k points convergence plot.
+             Default: character(len=*) 'output_nkconv.ps'
+\end{verbatim}
+An example of the use of this option can be found in \texttt{example11}. \\
+Number of tasks for this option: \texttt{nnk * nsigma}.
+
+\subsection{\color{web-blue}\texttt{what='scf\_bands'}}
+With this option the code makes a self-consistent calculation followed 
+by a band structure calculation. There is no image parallelization and no
+advantage to use several images. The output of the band structure 
+calculation is further processed in order to produce a plot of the band 
+structure.
+In insulators the zero of the energy is at the highest valence band 
+in the first {\bf k} point, in metals at the Fermi energy. \\
+The energy bands plot can be modified by the following variables:
+
+\begin{verbatim}
+emin_input : minimum energy for the band dispersion plot (in eV).
+             Default: real minimum of the bands
+emax_input : maximum energy for the band dispersion plot (in eV).
+             Default: real maximum of the bands
+nbnd_bands : the number of bands in the band calculation
+             Default: integer 2*nbnd, where nbnd is the number of bands 
+             given in pw.x input or calculated by pw.x.
+only_bands_plot: if the files with the bands and the representations
+             are already on files, this option allows to change the 
+             parameters of the plot (such as the maximum or minimum energy) and
+             do another plot without additional calculation. If the files are
+             missing and this variable is .TRUE. an error occurs. Note that
+             using this option you cannot change the path.
+             Default: logical .FALSE.
+lsym       : if .TRUE. does the symmetry analysis of the bands
+             Default: .TRUE.
+flpsband   : postscript file with the electronic band structure
+             Default: character(len=*) 'output_band.ps'
+\end{verbatim}
+Number of tasks for this option: \texttt{1}.
+
+By default, the bands are plotted along a fixed path in the Brillouin
+zone, but the user can modify this behavior giving the path at the end of 
+the \texttt{INPUT\_THERMO} namelist with the same format used for 
+the \texttt{pw.x} input. The automatic path generation is not available 
+for centered monoclinic and for triclinic Bravais lattices. For these
+lattices the path must be given explicitly.
+The following variables control the path:
+
+\begin{verbatim}
+q_in_band_form   : only the first and last point of each k path are given.
+                 The weight of each k point is an integer, the number of 
+                 points in the line that starts at this k point.
+                 Default: .TRUE.
+q_in_cryst_coord : the k - points are given in crystal coordinates.
+                 Default: .FALSE.
+point_label_type : the label definition (see the BZ manual)
+                 Default: SC
+\end{verbatim}
+Note that the path cannot be given in the input of \texttt{pw.x} that
+must contain the information to generate the mesh of {\bf k} points 
+used in the self-consistent calculation. 
+An example of the use of this option can be found in \texttt{example02}.
+If you give explicitly the path, be careful with options that require
+geometry changes (see below). Only automatic paths, or path given through 
+letter labels are easily recalculated. The other paths could turn out 
+to be correct only for one geometry.
+
+\subsection{\color{web-blue}\texttt{what='scf\_2d\_bands'}}
+With this option the code calculates the bands after a self-consistent 
+calculation as with the option \texttt{what='scf\_bands'}, but it assumes 
+that the cell contains a slab with surfaces perpendicular to the $z$ 
+direction. Therefore the two-dimensional Bravais lattice of the surface 
+is identified and the default path is chosen on the two-dimensional 
+Brillouin zone. 
+There are three options: Plot of the projected band structure (PBS); 
+plot of the bands of the slab; plot of the bands of the slab above the
+projected band structure (the Fermi energies are aligned). In the first 
+case the code computes several paths
+of {\bf k}-points parallel to the surface (at different {\bf k}$_z$) and does 
+not plot the individual bands but selects the energy regions in which 
+there are bulk states. The second case is similar to a standard band plot. 
+The default path contains only {\bf k}-points parallel to the 
+surface (with {\bf k}$_z=0$). The third case assumes that the projected band 
+structure has been already calculated and the information to plot it 
+can be found on the file \texttt{flpbs}. For the rest it is 
+similar to case two. For each direction, bands belonging to different 
+irreducible representations of the small group {\bf k} can be plotted 
+in the same panel or on different panels.\\
+This option is controlled by the following variables:
+\begin{verbatim}
+lprojpbs : When .TRUE. the projected band structure (PBS) is calculated 
+     if nkz > 1 otherwise it is read from file. Usually this variable is
+     .TRUE.. Set it to .FALSE. if you do not want to see the PBS, 
+     or if you want to see the bands of a bulk projected on the 
+     surface Brillouin zone without the PBS.
+     Default: logical .TRUE. (forced to .FALSE. if what is not 'scf_2d_bands')
+nkz  : The number of k_z values used for the PBS plot. 
+     If lprojpbs is .FALSE. a plot of the bulk bands projected on the 
+     surface Brillouin zone is produced.
+     Default: integer 4 (forced to 1 if what is not 'scf_2d_bands').
+gap_thr : minimum size (in eV) of the gaps in the PBS
+     Default: double precision 0.1 eV
+sym_divide: When .TRUE. the bands belonging to different irreducible 
+     representations are plotted in different panels. This option
+     can be controlled by variables specified in the path (see below)
+     Default : logical .FALSE.
+identify_sur: When .TRUE. the surface bands are searched and identified on the
+     surface band structure. 
+     Default : logical .FALSE.
+dump_states: If .TRUE. and identify_sur is .TRUE. dump on the file 
+     'dump/state_k_#' the planar averages of the density (and in the 
+     noncollinear case also of the magnetization density) of each state. 
+     One file for each k point is produced and # is the number of the k points.
+     (Use with a small number of k points or it might create quite large files).
+     Default: logical .FALSE.
+sur_layers: The number of surface layers on which we add the charge density of 
+     each state to check if it is a surface state.
+     Default : integer 2
+sur_thr : the threshold (in percentage) of the charge density that must be
+     on the surface layers to identify a state as a surface state.
+     Default: calculated from the actual charge density values of the states.
+subtract_vacuum: if .TRUE. the charge density of each state on vacuum is
+     subtracted (to remove the vacuum states that are confused with surface
+     states)
+     Default : .TRUE.
+force_bands: when .TRUE. the bands are plotted in any case.
+     Used to plot the bulk bands on top of the PBS, mainly for debugging.
+     Default: logical .FALSE.
+only_bands_plot: if the files with the bands, the representations, the pbs
+     and the projections are already on files, this option allows to change
+     the parameters of the plot (such as the maximum energy or sur_thr) and
+     do another plot without any additional calculation. If the files are
+     missing and this variable is .TRUE. an error occurs.
+     Default: logical .FALSE.
+flpbs : the name of the file that contains the information on the projected
+     band structure.
+     Default: character(len=*) 'output_pbs'
+flprojlayer : the name of the file that contains the information of the
+     projection of the charge density of each state on each layer.
+     Calculated only when identify_sur is .TRUE..
+     Default: character(len=*) 'output_projlayer'
+\end{verbatim}
+The bands and the gnuplot scripts are saved on the same files that would
+be used with the option \texttt{what='scf\_bands'}. \\
+Number of tasks for this option: \texttt{1}. Image parallelization is
+not useful with this option. 
+
+By default the symmetry separation is not carried out. The code plots the
+bands of the slab on the same panel with a different color for each 
+representation as in the bulk band structure plot (color refer to the 
+representations of the slab small group of {\bf k}). 
+In order to plot in different panels the different representations
+the user can specify \texttt{sym\_divide=} \texttt{.TRUE.}.
+By default this option is disabled and its use is rather tricky.
+In order to use this option you must indicate explicitly the
+path on the two dimensional Brillouin zone using the option
+\texttt{q\_in\_band\_form=.TRUE.}. Close to the
+starting point of a given line you must indicate the number of 
+representations for that line ($0$ means all representations) and which ones.
+For instance for a $(111)$ surface of an fcc metal you may
+want to plot separately the even and odd states in the direction 
+$\bar \Gamma-\bar M$. In order to do so you can specify the path as follows:
+\begin{verbatim}
+5
+gG   30  0
+K    30  0
+M    30  1  1
+gG   30  1  2
+M     1  0
+\end{verbatim}
+Which representation is indicated by its number (in this case $1$ or $2$).
+The number of the representation and the small point group of each 
+{\bf k}-point can be found in the output of \texttt{thermo\_pw}.
+However you must be careful because these representation numbers refer
+to the slab small point group of each {\bf k}-point when you
+plot the slab band structures and to the surface small point 
+group of each {\bf k}-point when you plot a PBS.
+For a given {\bf k}-point parallel to the surface, the slab
+might have a point group larger than the true surface, because it 
+might contain operations that exchange the two surfaces.
+In this case the surface point group of a given {\bf k}-point parallel 
+to the surface can be found in the projected band structure calculation,
+for a {\bf k}-point with the same component parallel to the surface
+and a generic {\bf k}$_z$. Actually the point group for this {\bf k}-point 
+does not contain operations that exchange {\bf k}$_z$ with $-${\bf k}$_z$.
+Therefore the symmetry separation of the PBS is done using the
+surface point groups. Some particular values of {\bf k}$_z$, such as 
+{\bf k}$_z=0$
+might have a different point group than a generic {\bf k}$_z$ and in this
+case the representations are transformed into those of the smaller
+group of the surface using the group-subgroup relationships and
+the descent in symmetry of the irreducible representations
+(only when \texttt{sym\_divide=.TRUE.}).
+It is the user responsibility to specify the same number of panels
+for the PBS and for the slab calculation and to assure that the
+representations plotted in each panel correspond to each other.
+Returning to the example of the $(111)$ surface of an fcc, in the direction
+$\bar \Gamma-\bar K$ the slab has $C_2$ symmetry about the $x$-axis, a symmetry
+that the surface has not. Therefore you can plot with two different colors
+the bands that belong to the $A$ or $B$ representations of the slab,
+(states even or odd with respect to a $180^\circ$ rotation about
+the $x$ axis, an operation that exchanges the two surfaces)
+but you cannot separate the PBS along the $\bar \Gamma-\bar K$ direction into
+even or odd states. You might specify two different panels with the
+$A$ or $B$ bands in each, but the PBS in the two panels will be the same. 
+On the contrary, along the $\bar \Gamma-\bar M$ direction, both the slab and 
+the surface have $C_s$ symmetry, so you can separate both the PBS 
+and the surface states in two different panels.
+
+There is no input variable to control or change the colors or style of the 
+plot. To change the defaults you can modify directly the gnuplot script,
+it is written in such a way that a change to a few variables can
+control the entire plot.
+
+\subsection{\color{web-blue}\texttt{what='scf\_dos'}}
+With this option the code makes a self-consistent calculation followed
+by a band structure calculation on a uniform mesh of {\bf k}-points and
+computes and plots the electronic density of states. \\
+There is no image parallelization and no advantage to use several images. \\
+This option is controlled by the following variables:
+\begin{verbatim} 
+deltae        : energy interval for electron dos plot (in Ry).
+                Default: real 0.01 Ry.
+ndose         : number of frequency points in the dos plot.
+                Default: determined from previous data
+nk1_d, nk2_d, nk3_d : thick mesh for dos calculation.
+                Default: integer 32, 32, 32
+k1_d, k2_d, k3_d : the shift of the k point mesh
+                Default: integer 0, 0, 0
+sigmae         : the smearing used for dos calculation (in eV).
+                If 0.0 uses the degauss of the electronic structure
+                calculation in metals and 0.01 Ry in insulators.
+                Default: real 0.0 
+legauss        : When .true. computes the electronic dos using a gaussian
+                smearing. When .false. uses the same smearing of the
+                electronic structure calculation in metals or gaussian smearing
+                in insulators.
+                Default: logical .false.
+fleldos        : name of the file that contains the electron dos data
+                Default: character output_eldos.dat
+flpseldos      : name of the postscript file that contains the electron 
+                dos picture
+                Default: character output_eldos.ps
+fleltherm      : name of the file that contains the electron thermodynamic data 
+                Default: character output_eltherm.dat
+flpseldos      : name of the postscript file that contains the picture of the
+                electron thermodynamic quantities
+                Default: character output_eltherm.ps
+\end{verbatim}
+The minimum and maximum energy, as well as the number of bands,
+are specified as with the option \texttt{what='scf\_bands'}.
+However with the present option no shift is applied to the bands
+and the minimum and maximum energies refer to the unshifted eigenvalues.
+Note that after a calculation with \texttt{what='scf\_dos'} you can
+run the tool code \texttt{epsilon\_twp.x} to evaluate the frequency
+dependent dielectric constant (for insulators only). \\
+With this option, in the metallic case, 
+the code computes the electronic thermodynamic quantities of
+a gas of independent electrons whose energy levels give the calculated 
+density of states and produces a postscript file
+with the electronic excitation energy, free energy, entropy,
+and constant strain heat capacity as a function of temperature. 
+The zero of the electronic energy is the energy at the smallest temperature 
+required in input when it is lower than $4$ K or $4$ K. 
+
+\subsection{\color{web-blue}\texttt{what='plot\_bz'}}
+With this option the code writes a script to make a plot
+of the Brillouin zone and of the path (the default one or the one given in 
+input). 
+The script must be read by the \texttt{asymptote} code, available at 
+\texttt{http://asymptote.sourceforge.net/}. In many Linux distributions
+this code is available as a separate package, but it is not installed by
+default. \\
+The following variables control the plot:
+\begin{verbatim}
+lasymptote  : if .TRUE. asymptote is called from within the program
+              and the pdf file with a plot of the BZ is produced
+              Default: logical .FALSE.
+flasy       : initial part of the name of the file where the asymptote script
+              is written and of the name of the pdf file.
+              Default: character(len=*) 'asy_tmp'
+asymptote_command  : the command that invokes asymptote and produces the 
+              pdf file of the BZ.
+              Default: character(len=*) 'asy -f pdf -noprc flasy.asy'
+npx         : used only in the monoclinic cell, this parameter is needed
+              to determine the shape of the Brillouin zone. The default
+              value is usually large enough, but for particular shapes of
+              the monoclinic Brillouin zone it could be small. If the
+              code stops with an error asking to increase npx, double 
+              it until the error disappears.
+              Default: integer 8
+\end{verbatim}
+The structure of the solid can be seen using the \texttt{XCrySDen} code
+that can read the input file of \texttt{pw.x}. You can find the code at
+\texttt{http://www.xcrysden.org/}. \thermo\ produces also a file in the
+\texttt{xsf} format called \texttt{prefix.xsf}, where the variable 
+\texttt{prefix}
+is given in the input of \texttt{pw.x}. This can be useful when
+the nonequivalent atomic positions and the space group are given in the input
+of \texttt{pw.x}. To see an \texttt{xsf} file, give the command
+\texttt{xcrysden --xsf file.xsf}.
+
+With this option the code produces also a file with the X-ray
+powder diffraction intensities for the solid. A plot shows the 
+scattering angles and the relative intensity of each peak. Note 
+that this plot is made using 
+a superposition of atomic charges, not the self-consistent charge.
+By setting the flag \texttt{lformf=.TRUE.} the atomic form factors of all 
+the atomic types used to calculate the intensities are plotted. 
+By setting the flag \texttt{lxrdp=.TRUE.} the intensities plot is done also 
+after the cell optimization and after a self-consistent calculation 
+for the options that support it.
+The variables that control these plots are:
+\begin{verbatim}
+lambda      : The X-ray wavelength (in A) used to calculate the scattering 
+              angles.
+              Default: Cu alpha line 1.541838 A if lambda_element is empty
+lambda_elem : The anode element, used to set the X-ray wavelength.
+              Supported elements 'Cr', 'Fe', 'Co', 'Cu', 'Mo'.
+              NB: lambda must be zero to use lambda_elem, otherwise the value
+              of lambda given in input is used.
+              Default: character(len=2) ' ' 
+flxrdp      : name of the file where the scattering angles and intensities 
+              are written.
+              Default: character 'output_xrdp.dat'
+flpsxrdp    : name of the postscript file with the X-ray diffraction
+              spectrum.
+              Defaults: character 'output_xrdp.ps'
+lxrdp       : if .TRUE. compute the xrdp also after the cell optimization
+              with all the options mur_lc_... with the uniformly strained
+              atomic positions and after the scf calculation if supported
+              by the option. 
+              Default: logical .FALSE.
+lformf      : if .TRUE. plot also the form factor of each atom type
+              present in the solid. Note that the atom type is recognized
+              from the atom name in the thermo_pw input. The name
+              must coincide with the symbols in the periodic table. 
+              (Cu, H, Li, Li1, ... are correct, CU, LI, H1 ... are wrong)
+              Default: logical .FALSE.
+smin        : minimum value of s used in the atomic form factor plot.
+              Default: real 0.0
+smax        : maximum value of s used in the atomic form factor plot.
+              Default: real 1.0
+npoint      : number of points in which the atomic form factor is calculated.
+              Default: integer 200
+lcm         : when .TRUE. the code uses the Cromer-Mann coefficients form
+              the International Tables of Crystallography to
+              compute the atomic form factors, otherwise uses the 
+              Doyle-Turner or Smith-Burge parameters.
+              Default: logical .FALSE.
+flformf     : name of the file in which the atomic form factor is written. 
+              The code adds a number to each file name and creates a file
+              per atom type.
+              Defaults: character 'output_formf.dat'
+flpsformf   : name of the postscript file with the atomic form factor.  
+              The code adds a number to each file name and creates a file
+              per atom type.
+              Defaults: character 'output_formf.ps'
+\end{verbatim}
+
+\subsection{\color{web-blue}\texttt{what='scf\_ph'}}
+With this option the code makes a self-consistent calculation followed
+by a phonon calculation. The phonon calculation is controlled by the file
+\texttt{ph\_control} and can be at a single {\bf q} point or on a mesh of 
+{\bf q} points. 
+The different representations are calculated in parallel when several images 
+are available. No other input variable is necessary. The outputs of this 
+calculation are the dynamical matrices files.
+An example of the use of this option can be found in \texttt{example03}. \\
+Number of tasks for this option: number of parallelizable tasks of the 
+phonon code (smaller but of the order of the number of {\bf q} points times 
+$3 N_{at}$, where $N_{at}$ is the number of atoms in the unit cell). \\
+\texttt{thermo\_pw} adds to the \texttt{ph.x} code the ability to
+compute the complex dielectric constant tensor of insulators as a function 
+of a complex frequency for the study of optical properties within 
+time-dependent density functional perturbation theory (TD-DFPT). 
+The TD-DFPT algorithm uses the Sternheimer equation and a self-consistent loop.
+The option is activated in the \texttt{ph.x} input by setting 
+\texttt{epsil=.TRUE.} and \texttt{fpol=.TRUE.}, but at variance with
+the \texttt{ph.x} code, the frequencies must be specified as complex numbers.
+The following additional variables can be put in the input of the \texttt{ph.x}
+code, to select the frequency range and the number of frequencies to compute:
+\begin{verbatim}
+freq_line : if this variable is .TRUE. the FREQUENCY keyword has the number 
+            of frequency points and the starting and final frequencies. 
+            If .FALSE. the number of frequencies and a list of frequencies 
+            are given. The frequencies are complex numbers and are given 
+            with a real and an imaginary part (in Ry), without parenthesis.
+            Default: .FALSE.
+
+delta_freq : When freq_line is .TRUE. instead of giving the last frequency 
+            of the line one can give the distance between two frequency points
+            delta_freq as a complex number. The last point of the line is 
+            calculated using the number of frequencies nfs and the first 
+            frequency. When delta_freq is not zero the last frequency 
+            is not used and can be omitted.
+            Default: complex, (0.0, 0.0).
+
+\end{verbatim}
+When in the input of the phonon code a non zero wave-vector {\bf q}
+is specified, the previous options produce the inverse of the dielectric 
+constant as a function of the frequency at the wave-vector {\bf q}
+(this option can be used both for insulators and metals).
+Number of tasks for frequency calculations: 1 (images are not active yet).
+
+\subsection{\color{web-blue}\texttt{what='scf\_disp'}}
+With this option the code makes a self-consistent calculation followed by
+a phonon dispersion calculation at a fixed geometry. The geometry is given in the 
+input of \texttt{pw.x}. The dynamical matrices are used to calculate 
+the interatomic force constants and to interpolate the phonon frequencies 
+along a path in the Brillouin zone. The path can be generated automatically 
+or given in input as in a band structure calculation (see above \texttt{what='scf\_bands'}). The code then 
+interpolates the phonon frequencies on a uniform mesh of {\bf q} points and 
+computes the phonon density of states with a smearing approach. The density of 
+states is used to calculate the harmonic thermodynamic properties: 
+vibrational energy, vibrational free energy, vibrational entropy, and 
+constant strain heat capacity.
+The same thermodynamic quantities are calculated also by direct 
+integration over the Brillouin zone and compared in the plots.
+Note that presently no interpolation formula is used at low temperatures
+so \texttt{thermo\_pw} can not be used to obtain thermodynamic 
+properties at very low temperatures. 
+The plotted numerical values are per moles in an Avogadro number of unit 
+cells. If you need them per mole you have to divide by the number 
+of formula units in a unit cell. \\
+The input variables that control this option are:
+\begin{verbatim}
+freqmin_input : minimum frequency for phonon dos plot.
+                Default: real determined from phonon frequencies
+freqmax_input : maximum frequency for phonon dos plot.
+                Default: real determined from phonon frequencies
+deltafreq     : frequency interval for phonon dos plot.
+                Default: real 1 cm^{-1}
+ndos          : number of frequency points in the dos plot.
+                Default: determined from previous data
+nq1_d, nq2_d, nq3_d : thick mesh for phonon dos calculation.
+                Default: integer 192, 192, 192
+phdos_sigma   : the smearing used for phonon dos calculation (in cm^-1).
+                Default: real 2. cm^-1
+after_disp    : if .TRUE. the dynamical matrices are supposed to be already
+                available in files in the current directory. This option
+                is needed to restart when the outdir directory has been
+                erased and ph.x cannot be run without redoing the scf 
+                calculation. The exact restart point depends on the files
+                already available on the current directory.
+                Default: logical .FALSE.
+fildyn        : the name of the dynamical matrix file, as would be 
+                specified in the input of ph. 
+                To be used when after_disp is .TRUE.. 
+                Default: character ' '
+zasr          : type of acoustic sum rule applied to the ifc.
+                Default: character(len=*) 'Simple'
+ltherm_dos    : if .TRUE. the thermal properties are calculated from the 
+                phonon dos.
+                Default: logical .TRUE.
+ltherm_freq   : if .TRUE. the thermal properties are calculated from the
+                direct integration using the phonon frequencies.
+                Default: logical .TRUE.
+flfrc         : file where the interatomic force constants are written
+                Default: character(len=*) 'output_frc.dat.g1'
+flfrq         : file where matdyn writes the interpolated frequencies
+                Default: character(len=*) 'output_frq.dat.g1'
+fldos         : file where the phonon dos is written
+                Default: character(len=*) 'output_dos.dat.g1'
+fltherm       : file where the harmonic thermodynamic quantities are written
+                Default: character(len=*) 'output_therm.dat.g1'
+flpsdisp      : postscript file of the phonon dispersions
+                Default: character(len=*) 'output_disp.ps'
+flpsdos       : postscript file of the phonon dos
+                Default: character(len=*) 'output_dos.ps'
+flpstherm     : postscript file of the harmonic thermodynamic quantities
+                Default: character(len=*) 'output_therm.ps'
+\end{verbatim}
+An example of the use of this option can be found in \texttt{example04}. \\
+Number of tasks for this option: number of parallelizable tasks of the 
+phonon code (smaller but of the order of number of {\bf q} points times 
+$3 N_{at}$, where $N_{at}$ is the number of atoms in the unit cell).
+
+\subsection{\color{web-blue}\texttt{what='scf\_elastic\_constants'}}
+With this option the code calculates the elastic constants of the solid
+at the geometry given as input to \texttt{pw.x}. 
+There are three different algorithms that at convergence should give the
+same results. In two of them, depending on the Laue class, the code 
+calculates the nonzero components of the stress tensor for a set of strains
+and obtains the elastic constants from the numerical first derivative
+of the stress with respect to strain.
+The two algorithms \texttt{standard} and \texttt{advanced} differ
+only in the choice of the unit cell. In the \texttt{standard} method the
+code applies the strain to the primitive vectors of the unstrained solid
+and uses \texttt{ibrav=0} and the strained vectors to compute the stress
+tensor.
+The \texttt{advanced}  method, available only for selected Bravais lattices, 
+try to optimize the calculation by choosing strains for which the number
+of needed {\bf k}-points is reduced. Moreover it identifies the 
+Bravais lattice of the strained solid and recalculates the primitive
+vectors with the conventions of \qe. When available this should be the
+most efficient method.
+The third algorithm is called \texttt{energy}.
+Using the \texttt{energy} algorithm the elastic constants are calculated 
+from the quadratic fit of the total energy as a function of strain
+without computing stress. This option is available only for selected 
+lattices and usually requires more independent strains. It can be
+used when stress calculation is not implemented in \qe.\\
+For all methods the number of strains is \texttt{ngeo\_strain}
+for each independent strain. 
+For each strain, the code relaxes the ions to their equilibrium 
+positions if \texttt{frozen\_ions=.FALSE.} or keeps them
+in the strained positions if \texttt{frozen\_ions=.TRUE.}. 
+Note that elastic constant calculations with \texttt{frozen\_ions=.FALSE.}
+might require smaller force convergence threshold than standard calculations. 
+The default value of \texttt{forc\_conv\_thr} must be changed in the 
+\texttt{pw.x} input.
+At finite pressure all methods give the elastic constants that
+relate linearly stress and strain. \\
+The input variables that control this option are:
+\begin{verbatim}
+frozen_ions: if .TRUE. the elastic constants are calculated 
+             keeping the ions frozen in the strained positions. 
+             Default: logical .FALSE.
+ngeo_strain: the number of strained configurations used to calculate each
+             derivative. 
+             Default: integer 4 ('standard' and 'advanced'), 6 ('energy')
+elastic_algorithm: 'standard', 'advanced', or 'energy'. See discussion above.
+             Default: character 'standard' 
+delta_epsilon: the interval of strain values between two geometries.
+             To avoid a zero strain geometry that might have a
+             different symmetry ngeo_strain must be even.
+             Default: real 0.005
+epsilon_0:   a minimum strain. For small strains the ionic relaxation 
+             routine requires a very small threshold to give the correct 
+             internal relaxations and sometimes fail to converge. In this 
+             case you can increase delta_epsilon, but if delta_epsilon 
+             becomes too large you can reach the nonlinear regime. In 
+             this case you can use a small delta_epsilon and a minimum 
+             strain. (To be used only for difficult systems).
+             Default: real 0.0
+poly_degree: degree of the polynomial used to interpolate stress or energy.
+             ngeo_strain must be larger than poly_degree+1
+             Default: 3 ('standard', 'advanced', 2 if ngeo_strain < 6), 
+                      4 ('energy', 3 if ngeo_strain < 6).
+fl_el_cons:  the name of the file that contains the elastic constants
+             Default: character(len=*) 'output_el_con.dat'
+\end{verbatim}
+The three algorithms are equivalent only at convergence both with
+{\bf k}-point sampling and with the kinetic-energy cut-off, but 
+large differences between the elastic constants obtained with the 
+\texttt{standard} and \texttt{advanced} algorithms might point to 
+insufficient {\bf k}-point sampling. Large differences between the 
+elastic constants obtained with the \texttt{energy} algorithm with respect 
+to the other two might point to insufficient kinetic-energy cut-off. \\
+Number of tasks for this option: \texttt{ngeo\_strain} times the number of
+independent strains. \\
+
+Using the elastic constants tensor the code can calculate and print
+a few auxiliary quantities:
+the bulk modulus, the poly-crystalline averages of the Young modulus,
+of the shear modulus, and of the Poisson ratio. Both the Voigt and the
+Reuss averages are printed together with the Hill average.
+The Voigt-Reuss-Hill average of the shear modulus and of the bulk modulus are 
+used to compute average sound velocities. The average of the Poisson ratio and
+the bulk modulus allow the estimation of the Debye 
+temperature. The Debye temperature is calculated also with the exact 
+formula evaluating the average sound 
+velocity from the angular average of the sound velocities calculated 
+for each propagation direction solving the Christoffel wave equation.
+The exact Debye temperature is used within the Debye model to calculate the
+Debye's vibrational energy, free energy, entropy and constant strain heat
+capacity. These quantities are plotted in a postscript file as a function
+of temperature.
+
+%\subsection{\color{web-blue}\texttt{what='scf\_piezoelectric\_tensor'}}
+%With this option the code calculates the piezoelectric tensor 
+%($g_{\alpha,m}$ $\alpha=1,3,\ m=1,6$) of the solid.
+%Depending on the point group, it calculates the polarization of the
+%solid for a set of strains of the lattice. For each strain, it relaxes 
+%the ions to their equilibrium positions when \texttt{frozen\_ions=.FALSE.} 
+%or keep them in the strained positions when \texttt{frozen\_ions=.TRUE.}. 
+%Finally it computes the piezoelectric tensor from the numerical derivatives 
+%of the polarization with respect to strain.
+%The number of strains used to compute each derivative 
+%is \texttt{ngeo\_strain}.\\
+%The input variables
+%that control this option are the same as those used for the elastic constant:
+%\begin{verbatim}
+%frozen_ions: if .TRUE. the piezoelectric tensor is calculated 
+%             keeping the ions frozen in the strained positions. 
+%             Default: logical .FALSE.
+%ngeo_strain: the number of strained configurations used. 
+%             Default: integer 4
+%nppl:        the number of k-points per line in Berry phase calculations
+%             Default: integer 51
+%delta_epsilon: the interval of strain values between two geometries.
+%               To avoid a zero strain geometry that might have a
+%               different symmetry ngeo_strain must be even.
+%               Default: real 0.002
+%\end{verbatim}
+%If a file with the elastic constants is found on disk, the code computes also
+%the direct piezoelectric tensor $d_{\alpha,m}$ which describes
+%the polarization induced by an external stress, as $d_{\alpha,m}=
+%\sum_n g_{\alpha,n} C_{nm}^{-1}$. All these quantities are calculated 
+%for a vanishing electric field. \\
+%Number of tasks for this option: \texttt{ngeo\_strain} times the number of
+%independent strains. \\
+%This feature is still incomplete and experimental.
+%
+\subsection{\color{web-blue}\texttt{what='mur\_lc'}}
+With this option the code runs several self-consistent calculations
+at different geometries. The runs can be done in parallel when several images 
+are available. This option has two working modes controlled by the 
+logical variable \texttt{lmurn}. When \texttt{lmurn=.TRUE.} the total energy as 
+a function of the volume is interpolated by a Murnaghan equation and 
+a plot of the energy as a function of the volume and of the pressure 
+as a function of the volume is produced. The volume is changed by 
+changing only \texttt{celldm(1)}. \texttt{celldm(2)...celldm(6)} remain fixed
+at the values given as input of \texttt{pw.x}.
+When \texttt{lmurn=.FALSE.} the energy is calculated in a uniform
+grid of parameters composed of \texttt{ngeo(1)} $\times$ \texttt{ngeo(2)...}
+$\times$ \texttt{ngeo(6)} points.
+The energies are fitted with a quadratic or quartic polynomial of
+$N_k$ variables, where $N_k$ is the number of independent crystal
+parameters for the given crystal system. A plot of the energy as 
+a function of the lattice constant is produced for cubic systems.
+For solids of the hexagonal, tetragonal, and trigonal systems
+contour plots of the energy as a function of the two crystal parameters
+($a$ and $c/a$ or $a$ and $\cos\alpha$)
+are plotted. For orthorhombic systems contour plots of the energy as a function
+of $a$ and $b/a$ are plotted for each value of $c/a$. 
+Presently no graphical tool is implemented to plot the energy
+for monoclinic and triclinic crystal systems. 
+When \texttt{lmurn=.FALSE.} the bulk modulus
+is not calculated. To obtain it, you can calculate the elastic constants at the
+minimum geometry (see the option \texttt{what='mur\_lc\_elastic\_constants'}). 
+With this option the pressure control is active. You can specify a 
+finite pressure and the enthalpy is minimized instead of the
+energy. Note however that if the minimum is distant from the starting
+configuration its associated error can be large, larger for the
+quadratic than for the Murnaghan interpolation. For this
+reason the present option should be used starting from the minimum found by
+\texttt{pw.x} using the \texttt{vc-relax} option and the pressure 
+should not be too different from the pressure used for \texttt{vc-relax}.\\
+This option can be controlled by the following variables:
+\begin{verbatim}
+ngeo(1),...,ngeo(6) : the number of geometries to use for each celldm parameter.
+             The lattice constant of these geometries is calculated from the
+             input of pw.x. celldm(1),...,celldm(6) of this input is used 
+             for the central geometry. For the others celldm(1),...,celldm(6),
+             are changed in steps of step_ngeo(1),...,step_ngeo(6). 
+             ngeo(1) must be odd. Only the values of celldm relevant for
+             each Bravais lattice are actually changed.
+             Default: integer 1,1,1,1,1,1 for what=scf_*, 9,1,1,1,1,1 for 
+             what=mur_lc_* and lmurn=.TRUE. or for cubic systems, 5 on all 
+             the relevant celldm parameters when lmurn=.FALSE. and the system
+             is not cubic.
+step_ngeo(1),...,step_ngeo(6) : The step between the lattice constants at 
+             different geometries. step_ngeo(1) is, in atomic units, the change
+             of a, step_ngeo(2), step_ngeo(3) are dimensionless and are the
+             changes of the ratios b/a, c/a, step_ngeo(4), step_ngeo(5), &
+             step_ngeo(6) are the changes in degree of the angles alpha,
+             beta, and gamma. The cosine of the angle is calculated by the
+             program.
+             Default: real 0.05 a.u., 0.02, 0.02, 0.5, 0.5, 0.5
+lmurn       : if .TRUE. the Murnaghan fit is done. Only ngeo(1) values of
+             the energy are fitted, the other values of ngeo are not used. 
+             if .FALSE. use a quadratic function to interpolate the energy 
+             as a function of all celldm parameters. The number of 
+             self-consistent calculations is ngeo(1) x ngeo(2) x ngeo(3)
+             x ngeo(4) x ngeo(5) x ngeo(6). In this case only the 
+             minimum energy and the optimal celldm are given in output. 
+             Default: .TRUE. 
+reduced_grid: if .TRUE. the number of energies used for the quadratic fit 
+             are reduced using the variables start_geo and jump_geo. 
+             This option is used only when lmurn=.FALSE.
+             Default: logical .FALSE.
+start_geo  : The first geometry of the reduced_grid.
+             Default: integer 1
+jump_geo   : jump_geo-1 geometries are not computed when reduced_grid
+             is .TRUE. For instance when jump_geo=3 and start_geo=1 the
+             computed geometries are 1,4,7,10 etc.
+             Default: integer 1
+show_fit   : if .TRUE. show the contour plot of the fitted energy instead
+             of the energy. Used by default when reduced_grid is .TRUE.
+             Default: logical .FALSE.
+vmin_input : minimum volume for the plot of the energy as a function of volume.
+             Default: real 0.98 times the volume of the first geometry.
+vmax_input : maximum volume for the plot of the energy as a function of volume.
+             Default: real 1.02 times the volume of the last geometry.
+deltav     : distance between two volumes in the plot of the energy as a 
+             function of the volume.
+             Default: real calculated from nvol.
+nvol       : number of volumes in Murnaghan plot
+             Default : integer 51
+lquartic   : if .TRUE. fit the energy with a quartic polynomial.
+             Default : logical .TRUE.
+lsolve     : choose the algorithm used to fit the quartic polynomial parameters.
+             Allowed values:
+             1 explicitly minimize chi^2
+             2 Use the QR algorithm to minimize chi^2 (lapack routine dgels)
+             3 Use the SVD algorithm to minimize chi^2 (lapack routine dgelss)
+             Default: integer 2
+flevdat    : file where the Murnaghan equation is written. The results of the
+             Murnaghan fit are then written in flevdat.ev.out.
+             Default: character(len=*) 'output_ev.dat'
+flpsmur    : postscript file of the Murnaghan plot
+             Default: character(len=*) 'output_mur.ps'
+ncontours  : the number of contours in the energy plot. These levels can
+             be determined automatically by the code or defined by the user.
+             The energy levels can be defined after the INPUT_THERMO namelist 
+             but before the path, as a list
+             energy_level(1)      color(1)
+             ...
+             energy_level(ncontours)   color(ncontours) 
+             Color is a string of the type color_red, color_green, etc.
+             The list of available colors is at the beginning of each gnuplot
+             script.
+             energy_level is in Ry units.
+             Default: integer 9
+flenergy   : name of the file that contains the energy in a form that
+             can be used by gnuplot to make contour plots.
+             Defaults: character(len=*) 'output_energy'
+flpsenergy : file with the contour plots of the energy as a function of the
+             crystal parameters.
+             Default: character(len=*) 'output_energy.ps'
+\end{verbatim}
+An example of the use of this option can be found in \texttt{example05}.\\
+Number of tasks for this option: \\
+\texttt{ngeo(1)} when \texttt{lmurn=.TRUE.}, \\
+\texttt{ngeo(1)}$\times$\texttt{ngeo(2)}$\times$\texttt{ngeo(3)}$\times$\texttt{ngeo(4)}$\times$\texttt{ngeo(5)}$\times$\texttt{ngeo(6)} when 
+\texttt{lmurn=.FALSE.} and \texttt{reduced\_grid=.FALSE.}\\
+\texttt{ngeo(1)}$+$\texttt{(ngeo(2)-1)}$+$\texttt{(ngeo(3)-1)}$+$\texttt{(ngeo(4)}-1)$+$\texttt{(ngeo(5)-1)}$+$\texttt{(ngeo(6)-1)} when 
+\texttt{lmurn=.FALSE.} and \texttt{reduced\_grid=.TRUE.}.
+
+
+\subsection{\color{web-blue}\texttt{what='mur\_lc\_bands'}}
+With this option the code computes the band structure at the geometry 
+that minimizes the energy. See the options 
+\texttt{what='scf\_bands'} and \texttt{what='mur\_lc'} for a list of 
+the variables that control these two options. 
+With this option the pressure control is active. You can specify a
+finite pressure and the enthalpy is minimized instead of the
+energy to find the equilibrium geometry. The bands are calculated
+at the geometry that corresponds to the external pressure.
+An example of the use of this option can be found in \texttt{example06}. \\
+Number of tasks for this option: see \texttt{what='mur\_lc}.
+
+\subsection{\color{web-blue}\texttt{what='mur\_lc\_ph'}}
+This option is similar to \texttt{what='scf\_ph'} but the phonon calculation
+is made at the geometry that minimizes the energy.
+See the options \texttt{what='scf\_ph'} and \texttt{what='mur\_lc'} for a
+list of the variables that control these two options. 
+With this option the pressure control is active. You can specify a
+finite pressure and the enthalpy is minimized instead of the
+energy to find the equilibrium geometry. The phonons are calculated
+at the geometry that corresponds to the external pressure.
+An example of the use of this option can be found in \texttt{example07}. \\
+Number of tasks for this option: Maximum between the number of tasks 
+needed by the \texttt{what='mur\_lc'} option and the number
+of tasks of the phonon code (see above the option \texttt{what='scf\_ph'}).
+
+\subsection{\color{web-blue}\texttt{what='mur\_lc\_disp'}}
+This option is similar to \texttt{what='scf\_disp'} but the phonon calculation
+is made at the geometry that minimizes the energy.
+See the options \texttt{what='scf\_disp'} and \texttt{what='mur\_lc'} for a
+list of the variables that control these two options. 
+With this option the pressure control is active. You can specify a
+finite pressure and the enthalpy is minimized instead of the
+energy to find the equilibrium geometry. The phonons are calculated
+at the geometry that corresponds to the external pressure.
+An example of the use of this option can be found in \texttt{example08}. \\
+Number of tasks for this option: Maximum between the number of tasks  
+needed by the \texttt{what='mur\_lc'} option and the number
+of tasks of the phonon code (see above the option \texttt{what='scf\_ph'}).
+
+\subsection{\color{web-blue}\texttt{what='mur\_lc\_elastic\_constants'}}
+As \texttt{what='scf\_elastic\_constants'} but the calculation is made at the
+geometry that minimizes the energy. The energy minimization is 
+done as described for \texttt{what='mur\_lc'}. 
+With this option the pressure control is active. You can specify a
+finite pressure and the enthalpy is minimized instead of the
+energy to find the equilibrium structure. Note however that if the 
+minimum is distant from the starting configuration its associated error 
+can be large, larger for the quadratic than for the Murnaghan interpolation. 
+An example of the use of this 
+option can be found in \texttt{example13}. \\
+One additional input variable controls this option.
+\begin{verbatim}
+do_scf_relax : if .TRUE. the code makes a self-consistent relax calculation at
+               the equilibrium geometry to find the optimized atomic 
+               coordinates, before computing the elastic constants.
+               This step is needed only for solids that have internal
+               degrees of freedom in the unstrained configuration. 
+               If .FALSE. the coordinates of the input geometry are strained 
+               uniformly to the equilibrium geometry.
+               Default: logical .FALSE. 
+\end{verbatim}
+Number of tasks for this option: Maximum between the number of tasks
+needed by the \texttt{what='mur\_lc'} option and the number of tasks
+needed for the \texttt{what='scf\_elastic\_constants'} option.
+
+%\subsection{\color{web-blue}\texttt{what='mur\_lc\_piezoelectric\_tensor'}}
+%As \texttt{what='scf\_piezoelectric\_tensor'} but the calculation is made at the
+%geometry that minimizes the energy. The
+%energy minimization is made as described for \texttt{what='mur\_lc'}. \\
+%This feature is still incomplete and experimental.
+
+\subsection{\color{web-blue}\texttt{what='mur\_lc\_t'}}
+With this option the code calculates the anharmonic 
+properties within the quasi-harmonic approximation. 
+The outputs of the code are the values of crystal parameters 
+(\texttt{celldm}) as a function of temperature. This calculation is done 
+by computing the phonon dispersions on all the geometries specified as in
+\texttt{what='mur\_lc'} (or on a subset of these geometries) and 
+minimizing the Helmholtz free energy.
+Separate plots of the phonon dispersions are obtained for all the 
+calculated geometries.
+For each geometry the code produces also plots of the phonon density
+of states and of the harmonic thermodynamic quantities.
+From \texttt{celldm} as a function of temperature the code computes the thermal
+expansion tensor, the volume, and the volume thermal expansion as a 
+function of temperature. 
+The frequencies at all the calculated geometries are interpolated
+by quadratic or quartic polynomials of the crystal parameters
+and can be shown at crystal parameters given in input or at those that
+correspond to a given temperature. The interpolated frequencies  
+are shown on the same path used for the phonon dispersions.
+In addition to the frequencies the code produces also several plots of
+the derivatives of the frequencies with respect to the crystal parameters
+multiplied by the crystal parameters. \\
+When the Murnaghan equation is used to interpolate the
+Helmholtz free energy (\texttt{lmurn=.TRUE.}), in addition to the volume, 
+the bulk modulus and the pressure derivative of the bulk modulus are 
+plotted as a function of 
+temperature. Moreover the isobaric heat capacity, the isoentropic 
+bulk modulus, and the average Gr\"uneisen parameter are calculated as 
+a function of temperature.
+The mode Gr\"uneisen parameters are calculated with cubic interpolations of the
+phonon frequencies. Using the variable \texttt{with\_eigen} one can 
+calculate these parameters as derivatives of the phonon frequencies 
+(default) or as expectation values of the derivatives of the dynamical 
+matrix on the central geometry eigenvectors (might require a lot of RAM). 
+The mode Gr\"uneisen parameters are used to calculate the volume
+thermal expansion and the result is compared with the volume thermal expansion
+derived from the numerical derivative of the equilibrium volume obtained
+from the minimization of the Helmholtz free energy. 
+When the Helmholtz free energy is interpolated with a quadratic or cubic
+polynomium (\texttt{lmurn=.FALSE.}), by default, the code computes only 
+the temperature dependence of the lattice parameters and of the volume, the 
+volume thermal expansion, and the thermal expansion tensor. However if a file 
+with the elastic constants is found in the working directory 
+and \texttt{lb0\_t=.FALSE.} the bulk modulus is calculated and 
+assumed independent from the temperature so that also the isobaric specific 
+heat, the isoentropic bulk modulus, and the average Gr\"uneisen parameter 
+are calculated as a function of temperature. The derivatives of the 
+frequencies are used to calculate the thermal expansion tensor which 
+is compared with that obtained from the numerical derivatives of the 
+crystal parameters obtained from the minimization of the Helmholtz free energy.
+If many files with the elastic constants, one for each geometry, as
+produced with the option \texttt{elastic\_constants\_t}, are found
+in the working directory, the bulk modulus and the elastic constants
+are computed as a function of temperature and are used
+to calculate the other thermodynamic properties. In addition to the
+quantities plotted for cubic solids, the code plots also the elastic
+constants as a function of the temperature and the difference between
+elastic constants calculated at constant temperature or at constant
+entropy. These possibilities are implemented only for cubic, tetragonal, 
+hexagonal, trigonal, and orthorhombic systems. \\
+With this option the pressure control is active. You can specify a
+finite pressure and the Gibbs energy is minimized instead of the
+Helmholtz free energy. Note however that if the minimum is distant from 
+the starting configuration its associated error can be large, larger for the
+quadratic than for the Murnaghan interpolation. \\
+The input variables that control these plots are those described in the option
+\texttt{what='mur\_lc'} and \texttt{what='mur\_lc\_disp'} in addition to the 
+following:
+\begin{verbatim}
+grunmin_input : minimum y coordinate for the Gruneisen parameter plot.
+                Default: real, calculated from the Gruneisen parameters.
+grunmax_input : maximum y coordinate for the Gruneisen parameter plot.
+                Default: real, calculated from the Gruneisen parameters.
+volume_ph     : The frequencies and Gruneisen parameters interpolated 
+                at this volume are plotted on a postscript file. 
+                When volume_ph=0.0 the volume is calculated from temp_ph.
+                This option is available only for cubic solids. Otherwise
+                use celldm_ph.
+                Default : 0.0 (in (a.u.)**3)
+celldm_ph     : The frequencies and Gruneisen parameters interpolated 
+                at this crystal parameters are plotted on a postscript file. 
+                If this is 0.0 the celldm are calculated from temp_ph.
+                To have accurate Gruneisen parameters and interpolated
+                frequencies set the central geometry as close as possible 
+                to celldm_ph. When all nstep are odd, the central geometry 
+                is the one given in the input of pw.x.
+                Default : 0.0 (celldm(1) in a.u., celldm(2-6) dimensionless)
+temp_ph       : The frequencies and Gruneisen parameters interpolated at 
+                the volume (cubic systems) or at celldm (anisotropic systems)
+                that corresponds to this temperature are plotted 
+                on a postscript file (only when volume_ph=0.0 or 
+                celldm_ph(1)=0.0).
+                Default : real tmin (in K)
+with_eigen    : if .TRUE. use the eigenvectors of the dynamical matrix to
+                calculate the Gruneisen parameters. For anisotropic solids
+                this option cannot be changed. It is .TRUE. for the plotted
+                Gruneisen bands, but Gruneisen parameters are not used to
+                calculate anharmonic properties.
+                Default: logical .FALSE. 
+lquartic_ph   : if .TRUE. fit the vibrational free energy with a fourth
+                order polynomial, otherwise with a second order polynomial
+                Default: logical .FALSE.
+lv0_t         : if .TRUE.  the calculation of the thermal expansion with 
+                Gruneisen parameters uses the equilibrium volume as a 
+                function of temperature computed from the free energy 
+                minimization, otherwise the volume at T=0 K.
+                Default: logical .TRUE.
+lb0_t         : if .TRUE. the calculation of the thermal expansion with 
+                Gruneisen parameters uses the bulk modulus as a function of 
+                temperature computed from the free energy minimization, 
+                otherwise the bulk modulus computed at T=0 K. For anisotropic
+                solids only lb0_t=.FALSE. is implemented.
+                Default: logical .TRUE.
+flpgrun       : file where the values of the Gruneisen parameters are written. 
+                Default: character(len=*) 'output_pgrun.dat'
+flgrun        : file where the Gruneisen parameters in a plotable form are
+                written.
+                Default: character(len=*) 'output_grun.dat'
+flpsgrun      : name of the postscript file with the Gruneisen parameters plot.
+                The frequencies are written in the file with the same name 
+                plus the string _freq.
+                Default: character(len=*) 'output_grun.ps'
+flanhar       : file where the anharmonic thermodynamic quantities are written.
+                Default: character(len=*) 'output_anhar.dat'
+flpsanhar     : postscript file of the anharmonic quantities.
+                Default: character(len=*) 'output_anhar.ps'
+fact_ngeo(1)...fact_ngeo(6) : With these factors the vibrational free energy 
+                is interpolated using a smaller number of geometries 
+                with respect to the total energy. The phonons are always 
+                calculated at geometry 1, then fact_ngeo(i)-1 geometries 
+                are not calculated and so on. The last calculated geometry 
+                must be ngeo(i). This happens when fact_ngeo(i) divides
+                ngeo(i)-1. For even ngeo(i), fact_ngeo(i) must be 1.
+                For odd ngeo(i) the following table gives a few examples
+                ngeo   fact_ngeo      calculated geometries
+                3         2            1,3
+                5         2            1,3,5
+                7         2            1,3,5,7
+                7         3            1,4,7
+                9         2            1,3,5,7,9
+                9         4            1,5,9
+                11        2            1,3,5,7,9,11
+                11        5            1,6,11
+                Defaults: integer 1,1,1,1,1,1
+                This option is not active when reduced_grid=.TRUE.
+\end{verbatim}
+The output files corresponding to different geometries can be identified
+by the presence of the letters \texttt{g1}, \texttt{g2}, ... in the filename.
+To exploit all the features of this option please write the dynamical matrices
+in \texttt{.xml} format (using a \texttt{fildyn} with the \texttt{.xml}
+extension).
+An example of the use of this option can be found in \texttt{example09}. \\
+Number of tasks for this option: Maximum between the the number of tasks  
+needed by the \texttt{what='mur\_lc'} option and the number
+of tasks of the phonon code (see above the option \texttt{what='scf\_ph'}). \\
+
+\subsection{\color{web-blue}\texttt{what='elastic\_constants\_t'}}
+
+With this option the code computes the elastic constants for a set of
+geometries, the same geometries that are chosen with the option 
+\texttt{what='mur\_lc\_t'} and write them on separate files, one for
+each geometry. The temperature dependence of the elastic constants is
+not computed by this option. In order to plot the elastic constants
+as a function of temperature it is necessary to make a calculation
+with \texttt{what='mur\_lc\_t'} having on files the elastic constants
+calculated with the present option. In this case \texttt{thermo\_pw}
+will be able to calculate the anharmonic properties using temperature
+dependent elastic constants and bulk moduli obtained by interpolating 
+the elastic constants computed by this option at the crystal parameters 
+found at each temperature from the minimization of the free energy. 
+The parameters that control this option are the same as those used with  
+\texttt{what='mur\_lc'} for the choice of the geometries and with
+\texttt{what='scf\_elastic\_constants} for the control of the elastic
+constants.
+
+%\subsection{\color{web-blue}\texttt{what='scf\_polarization'}}
+%With this option the code calculates the spontaneous polarization.
+%The code makes a self-consistent calculation followed by three Berry
+%phase calculations in which the polarization is calculated in the
+%direction parallel to the three primitive reciprocal lattice vectors and 
+%prints the spontaneous polarization in Cartesian coordinates.
+%The input variable that controls this option is:
+%\begin{verbatim}
+%nppl: the number of k points per string. In the perpendicular plane the
+%      number of k-point is that given as input of the pw.x code.
+%      Default: integer 51
+%\end{verbatim}
+%This feature is still incomplete and experimental.
+%
+%\subsection{\color{web-blue}\texttt{what='mur\_lc\_polarization'}}
+%As \texttt{what='scf\_polarization'} but the calculation is made at the
+%geometry that corresponds to the minimum of the Murnaghan equation. The
+%Murnaghan minimization is made as described for \texttt{what='mur\_lc'}.\\
+%This feature is still incomplete and experimental.
+%
+
+\newpage
+\section{\color{coral}Restarting an interrupted run}
+
+There are several situations that might require the restart of the \thermo\ 
+code. We must distinguish two different cases:
+\thermo\ stopped while running \qe\ routines, because the code reached
+the maximum cpu time or because some external event stopped the run,
+or \thermo\ stopped after doing some post-processing task. This second 
+case comprises also the normal termination of
+\thermo\ and the necessity to change some details of the plot rerunning
+the post-processing tools without redoing the \qe\ calculations.
+Support for the first case is based on the recover features provided by 
+\qe\ routines. This restarting method needs files in the \texttt{outdir}
+directory and works only with one image. In this case \thermo\ behaves as \qe\ 
+except for the fact that \texttt{max\_seconds} in the input of \texttt{pw.x} or
+of \texttt{ph.x} is not active. To run \texttt{thermo\_pw}
+for a fixed number of seconds \texttt{max\_seconds} must be set in the
+\texttt{THERMO\_CONTROL} namelist. If the code stopped inside \texttt{pw.x},
+\texttt{restart\_mode} must be set to \texttt{'restart'} in the input of 
+\texttt{pw.x} while if the code stopped inside \texttt{ph.x} routines
+\texttt{recover} must be set to \texttt{.TRUE.} in the input of \texttt{ph.x}.
+
+Instead when you are running \texttt{thermo\_pw} with several images the option 
+\texttt{max\_seconds} is disabled, \texttt{restart\_mode} must 
+be set to \texttt{'from\_scratch'} in the input of \texttt{pw.x} and
+\texttt{recover} must be set to \texttt{.FALSE.} in the input of \texttt{ph.x}.
+This does not mean that \texttt{thermo\_pw} cannot recover any of the previous
+calculations but a few calculations must be repeated. In general \thermo\ 
+does not recalculate the quantities contained in files that are already 
+in the working directory. If you are running \thermo\ in tasks that do 
+self-consistent calculations followed by phonon calculations, the 
+self-consistent calculation is not repeated 
+when completed and also completed phonon calculations at a given
+geometry for which the dynamical matrices are available are
+not redone. It is possible to stop \texttt{thermo\_pw} after the 
+calculation of the phonon dispersions for a fixed number of geometries 
+by setting the input variable \texttt{max\_geometries} in the 
+\texttt{THERMO\_CONTROL} namelist. 
+Each routine checks if a file with the same name
+as the file that it would produce is already in the working directory,
+and if this happens, it reads its content and returns. This feature cannot be
+disabled from input. In order to recalculate a given quantity, just remove
+the file that contains it from the working directory.
+
+In an anharmonic calculation, if you have already all the dynamical 
+matrices for all the geometries and you do not have any more the
+\texttt{outdir} directory, it is possible to skip entirely
+the phonon calculations and the reading of the files produced by
+\texttt{pw.x} by setting the variable
+\texttt{after\_disp=.TRUE.} and giving the name of the dynamical matrices file
+using the variable \texttt{fildyn} in the \texttt{THERMO\_CONTROL} namelist. 
+In this case \thermo\ can compute the anharmonic properties with a 
+different set 
+of temperatures, or with a different sampling on the phonon frequencies, 
+etc.. You need to erase the output files that contain
+the phonon dos, or the thermal properties from a previous calculation, keeping 
+the dynamical matrices files and the \texttt{restart} directory and 
+rerun \thermo.
+Similarly if the files containing the bands energy eigenvalues are already
+in the working directory, it is possible to set the input variable
+\texttt{only\_bands\_plot} to change the bands plot without redoing the
+bands calculation. Note however that in this case it is not possible 
+to change the Brillouin zone path. \\
+
+\newpage
+\section{\color{coral}Tools}
+
+The directory \texttt{tools} contains a few tools that can be useful to build
+structures of solids, surfaces, ribbons, and nanowires. Currently it contains
+the following programs:
+
+\begin{itemize}
+
+\item \texttt{group\_name.x} gives the names of the 
+space group that correspond to a given space group number. 
+
+\item \texttt{group\_number.x} gives the space group number
+that corresponds to a given space group name. It also lists many equivalent
+names of the same group.
+
+\item \texttt{supercell.x} reads a three dimensional
+Bravais lattice index and the atomic coordinates of the atoms inside a unit
+cell and produces a supercell with $n1 \times n2 \times n3$ cells of the original
+unit cell. For centered cells there is the option to consider $n1$, $n2$,
+and $n3$ in the conventional or in the centered cell.
+The input unit cell can be specified also by giving the space group and
+the coordinates of the nonequivalents atoms.
+It can be useful to study defects or to calculate all the 
+atomic positions starting from the space-group and the 
+nonequivalents positions.
+
+\item \texttt{translate.x} reads a set of atomic positions
+and translates them of a fixed vector.
+
+\item \texttt{gener\_nanowire.x} reads a two dimensional (2D)
+Bravais lattice index and atomic coordinates an generates a sheet of type
+$(m,n)$. A sheet contained between the two vectors 
+{\bf C}$ = m$ {\bf a}$_1 + n ${\bf a}$_2$ and {\bf T} $= p ${\bf a}$_1 + q ${\bf a}$_2$
+can be also generated and wrapped about {\bf C} in a nanotube form 
+({\bf a}$_1$ and {\bf a}$_2$ are the primitive lattices of the 2D Bravais 
+lattice). 
+For lattices that allow it, $p$ and $q$ can be determined automatically so that 
+{\bf T} is perpendicular to {\bf C}.
+
+\item \texttt{gener\_2d\_slab.x} reads a two dimensional 
+Bravais lattice index and atomic coordinates an generates an infinite ribbon
+perpendicular to {\bf G} $= m$ {\bf b}$_1 + n ${\bf b}$_2$, where 
+{\bf b}$_1$ and {\bf b}$_2$ are the primitive reciprocal lattice vectors 
+of the 2D Bravais lattice. The number of rows of the ribbon, and the number of
+atoms per row are given as an input variables.
+
+\item \texttt{epsilon\_tpw.x} generalizes the routine
+epsilon.f90 of the \qe\ distribution. It calculates the complex dielectric
+constant of a solid as a function of the frequency for independent electrons
+using the LDA or GGA eigenvalues. It is limited to insulators, but supports
+norm-conserving, ultrasoft, and PAW pseudopotentials. It supports both scalar
+relativistic and fully relativistic pseudopotentials and it uses the point
+group symmetry of the solid to reduce the number of {\bf k}-points.
+
+\item \texttt{gener\_3d\_slab.x} reads a three dimensional
+Bravais lattice index and atomic coordinates and generates an infinite slab
+perpendicular to {\bf G} $= m ${\bf b}$_1 + n ${\bf b}$_2 + o ${\bf b}$_3$, 
+where {\bf b}$_1$, {\bf b}$_2$ and {\bf b}$_3$ are the primitive reciprocal 
+lattice
+vectors of the 3D Bravais lattice. The number of layers of each slab, and the
+size of the surface unit cell are given as input parameters.
+
+\item \texttt{plot\_sur\_states.x} reads the dump file
+with the planar averages of the all the states, selects the k points
+and the bands requested in input and generate the plot of the states.
+
+\item \texttt{elastic.x} reads the elastic constants of a
+solid and computes the elastic compliances, the bulk modulus, and a few
+poly-crystalline averages. It uses the \tpw\ library so the output is the
+same but can be used separately. 
+
+\item \texttt{test\_colors.x} produces a postscript file with the 
+\texttt{gnuplot} colors that can be used in the plots.   
+
+\end{itemize}
+
+For a detailed description of the input variables please look at the beginning 
+of the \texttt{fortran} sources of each code.
+
+\newpage
+\section{\color{coral}Examples and inputs}
+
+The two directories \texttt{examples} and \texttt{inputs} contain a set
+of examples that can be studied in order to learn how to use the \thermo\ 
+package. The \texttt{examples} directory contains inputs that run in a few
+seconds but do not give converged results. These examples can be studied 
+to see how the \thermo\ code works in the different cases. The
+reference directory of each example contains all the output
+files produced by the run. A one-to-one comparison with the output
+produced by running the example script is however not possible due to the
+asynchronous nature of the runs. The plotted physical quantities however
+should be the same. \\
+The directory \texttt{inputs} contains a set
+of realistic inputs and reasonably converged results. Not all
+output files are reported in the reference directory of each run.
+The \texttt{inputs} examples are divided according to the structure type
+and many material properties are calculated for each structure.
+This directory can be seen as a gallery of the results that can be
+obtained by the \thermo\ code, or as a source of information for the
+construction of a particular input geometry.
+
+\newpage
+\section{\color{coral}Documentation}
+
+In addition to this user's guide, this directory contains the following
+documents:
+
+\begin{itemize}
+
+\item
+\texttt{point\_groups.pdf} : a description of the crystallographic point groups
+and of their single and double representations, for the interpretation of
+the color codes in the band and phonon dispersion plots.
+
+\item
+\texttt{thermo.pdf} : some notes on the thermodynamic expressions implemented
+in \texttt{thermo\_pw}.
+
+\item
+\texttt{developer\_guide.pdf} : some notes on the internal logic of
+\texttt{thermo\_pw}.
+
+\end{itemize}
+
+\newpage
+\section{\color{coral}Color codes}
+
+In this section we briefly summarize the color codes of some of the figures
+that can be obtained from \texttt{thermo\_pw}.
+
+\begin{itemize} 
+\item
+Total energy versus kinetic energy. This is a single figure of the total
+energy versus wave-functions kinetic energy cut-offs. When the test
+requires several charge density cut-offs there is a different curve
+for each charge density cut-off. The curve corresponding to the lowest
+charge density cut-off is \texttt{red}, the one corresponding to the
+highest is \texttt{blue}, all the others are \texttt{green}.
+Note that the total energy of the last configuration (highest wave function
+and charge density cut offs) is subtracted from all energies.
+
+\item
+Total energy versus size of the {\bf k}-point mesh. This is a single
+figure of the total energy as a function of the size of the {\bf k}-point
+mesh. When the test requires several values of \texttt{degauss}, there
+is a curve for each \texttt{degauss}. The curve corresponding to the
+first \texttt{degauss} is \texttt{red}, the one corresponding to the
+last is \texttt{blue}, all the others are \texttt{green}.          
+Note that the total energy of the last configuration (highest number of
+points and lowest \texttt{degauss}) is subtracted from all energies.
+
+\item
+Total energy as a function of volume (\texttt{lmurn=.TRUE.}). 
+This plot is composed by two figures. Total energy as a function of volume 
+and pressure as a function of volume. Both curves are \texttt{red}.   
+The points on the first curve are the calculated energies, the continuous
+curve is the fit.
+
+\item
+Total energy as a function of one or two crystallographic parameters
+(\texttt{lmurn=.FALSE.}). When there is a single parameter the curve is
+\texttt{red} as in the case (\texttt{lmurn=.TRUE.}). When there are two
+parameters a contour plot of the energy as a function of two parameters
+is shown. The contour levels, their number and their colors can be
+given in input. By default the code shows nine levels with three
+colors. From the lowest to the highest levels, the colors are \texttt{red},
+\texttt{green}, and \texttt{blue}. The energy value of each level is 
+written on output. When the user requests more levels without specifying
+their colors, the code continues with three \texttt{yellow} levels, 
+then \texttt{pink}, \texttt{cyan}, \texttt{orange}, \texttt{black}, and
+when more than $24$ levels are requested the sequence of colors is repeated.
+For crystal systems with more crystallographic parameters, this figure is
+not available.
+
+\item
+Energy bands. In this figure the bands have the color of
+their irreducible representation. Each line of the path can have a different
+point group and representations. See the \texttt{point\_groups.pdf} file
+for the list of representations and their color code. Bands that in a given
+panel are all \texttt{red} have not been separated according to symmetry,
+because the path is at the border of the Brillouin zone and the space
+group is not symmorphic.
+                              
+\item
+Electron density of states. This is a plot composed by two figures,
+the first contains the electron density of states, the second the integral
+of the density of states up to that energy. The dos is \texttt{red}.
+In the local spin density case, the dos for spin up is \texttt{red} the
+one for spin down is \texttt{blue} and with a negative sign.          
+The integrated density of states is \texttt{blue}. In the spin polarized
+case, the curve shows the integral of the sum of the up and down density 
+of states.
+
+\item
+Electronic energy, free energy, entropy, and isochoric heat capacity 
+(metals only). This plot is composed by four pictures one for each
+quantity. There is a single \texttt{blue} curve per plot.      
+
+\item
+Phonon dispersions. In this figure the phonon dispersions have the color 
+of their irreducible representations. The same comments made for the plot of 
+the band structure apply here.                       
+
+\item
+Phonon dos. There is one picture with a single \texttt{red} curve.  
+   
+\item
+Vibrational energy, free energy, entropy, and isochoric heat capacity. This plot
+is composed by four figures each one showing one quantity. In \texttt{red} the 
+quantities obtained using the phonon density of states, 
+in \texttt{blue} those obtained from three dimensional integrals over 
+the Brillouin zone. In some cases the \texttt{red} curve is not visible 
+because it is exactly below the \texttt{blue} one.
+
+\item
+Debye vibrational energy, free energy, 
+entropy, and isochoric heat capacity. This plot is composed by four 
+figures each one showing one quantity. The curves are in \texttt{blue}
+and the word Debye appears in the $y$ axis label.
+                                            
+\item
+Equilibrium volume, bulk modulus, pressure derivative of the bulk
+modulus, isochoric heat capacity, isobaric heat capacity,
+thermal expansion, isobaric-isochoric difference of the heat capacity,    
+isoentropic-isothermal difference of the bulk modulus, and 
+average Gr\"uneisen parameter as a function of T (\texttt{lmurn=.TRUE.}). 
+This is a plot composed by nine figures, each one containing a different
+quantity in the order given above. In \texttt{red} the quantities 
+calculated using the phonon dos, in \texttt{blue} those
+obtained by a three dimensional integral over the Brillouin zone.
+Thermal expansion and average Gr\"uneisen parameter can also be 
+calculated using the mode Gr\"uneisen parameters and the result is plotted in
+\texttt{green}.
+
+\item
+Crystallographic parameters, volume, thermal expansion tensor, and 
+volume thermal expansion as a function of temperature 
+(\texttt{lmurn=.FALSE.}). The number of
+pictures in this plot depends on the crystal system. It shows $a$, 
+$b/a$ (for orthorhombic solids) and $c/a$ (for tetragonal, hexagonal, and 
+orthorhombic solids) as a function of temperature. Then it shows the
+volume, the thermal expansion tensor, and the volume thermal expansion as
+a function of temperature. All quantities calculated using the phonon 
+density of states are in \texttt{red}, those calculated from integration
+over the Brillouin zone are in \texttt{blue} with the exception of the
+thermal expansion tensor. This tensor is in \texttt{red} or \texttt{blue}
+as above, or it might be \texttt{green} if computed from Gr\"uneisen
+parameters. For hexagonal and tetragonal solids $\alpha_{xx}$ is \texttt{red}
+if computed from phonon dos, \texttt{blue} if computed from three-dimensional
+frequency integration and \texttt{green} if computed from Gr\"uneisen 
+parameters. $\alpha_{zz}$ is \texttt{pink}, \texttt{cyan}, and \texttt{orange}
+in the same three cases.
+In the orthorhombic case $\alpha_{xx}$ and $\alpha_{zz}$ have the same
+colors, while $\alpha_{yy}$ is \texttt{gold}, \texttt{olive}, and 
+\texttt{light-blue} in the three cases described above.
+Only $a$, the volume, and the volume thermal expansion are shown 
+for all the other crystal systems.
+When the working directory contains a file with the elastic constants and
+the flag \texttt{lb0\_t=.FALSE.} the code uses the elastic constants to
+compute the bulk modulus and plots the difference between isobaric and
+isochoric heat capacities and the difference between isobaric and isothermal
+bulk modulus. In each plot there are three curves in \texttt{red} or
+\texttt{blue} that indicate quantities calculated
+from the phonon density of states or from direct integration over the
+Brillouin zone. The \texttt{green} curves use the 
+mode Gr\"uneisen parameters to calculate the thermal expansion and
+the elastic constants to calculate the bulk modulus. The volume instead
+is the same as in the \texttt{blue} curve if \texttt{ltherm\_freq=.TRUE.}
+or as in the \texttt{red} curve if \texttt{ltherm\_freq=.FALSE.}.
+When both \texttt{ltherm\_freq=.FALSE.} and \texttt{ltherm\_dos=.FALSE.}
+the volume is kept fixed at the equilibrium volume at $T=0$ K.
+The difference $C_\sigma-C_\epsilon$ of the heat capaticities computed at
+constant stress or constant strain is computed also using the anisotropic
+formula, without introducing the bulk modulus. In this case it is
+plotted in \texttt{yellow} (\texttt{orange}) when the crystallographic 
+parameters are calculated from the minimization of the free energy 
+obtained from phonon density of states (direct integration over the 
+Brillouin zone).
+
+\item
+Mode Gr\"uneisen parameters. In this plot the mode Gr\"uneisen parameters have
+the color of the irreducible representation of the phonon dispersion curve
+of which they are the derivative.
+The same comments made for the band structure plot apply here.
+
+\item
+Phonon dispersions at the geometry that corresponds to a given temperature. 
+The color are assigned on the basis of the irreducible representation of
+each mode. The same comments made for the band structure plot apply here.
+
+\item
+Temperature dependence of the elastic constants within the 
+`Quasistatic Approximation'. The elastic constants are calculated 
+at several geometries and
+intepola  
+
+\end{itemize}
+
+\end{document}

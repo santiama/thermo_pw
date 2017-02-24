@@ -1,0 +1,911 @@
+bands_sub.f90:           WRITE(iuntmp,'(3f16.6)') mdkx*(i1-1), mdky*(i2-1), &
+bands_sub.f90:           WRITE (iunpun, '(" &plot nbnd=",i4,", nks=",i6," /")') &
+bands_sub.f90:        WRITE (iunpun, '(10x,3f10.6)') xk_collect(:,ik+ik0)
+bands_sub.f90:        WRITE (iunpun, '(10f8.3)') (et_collect(ibnd, ik+ik0)*rytoev, &
+check_el_cons.f90:        WRITE(stdout,'(/,5x,"No elastic constants file found.")')
+check_el_cons.f90:        WRITE(stdout,'(5x,"Some plots might be missing")')
+check_el_cons.f90:         WRITE(stdout,'(/,5x,"File ",i5," with elastic constants missing")')&
+check_el_cons.f90:         WRITE(stdout,'(5x,"The dependence on temperature will be neglected")')
+check_el_cons.f90:     WRITE(stdout,'(/,5x,"Geometry number",i5)') igeo
+check_existence.f90:        WRITE(stdout,'(5x,"Data found on file")')
+check_existence.f90:        WRITE(stdout,'(5x,"Total energy = ",f20.8," Ry")') energy
+check_existence.f90:              WRITE(stdout,'(5x,"Stress (kbar)")')
+check_existence.f90:                 WRITE(stdout,'(3f15.7)') (stress(ipol,jpol)*ry_kbar,jpol=1,3)
+check_existence.f90:           WRITE(stdout,'(5x,"Stress (kbar)")')
+check_existence.f90:              WRITE(stdout,'(3f15.7)') (stress(ipol,jpol)*ry_kbar,jpol=1,3)
+check_existence.f90:        WRITE(iu_ene,*) energy_geo(iwork)
+check_existence.f90:              WRITE(iu_ene,*) (sigma_geo(ipol,jpol,iwork),jpol=1,3)
+check_existence.f90:        WRITE(iu_ene,*) etot
+check_existence.f90:           WRITE(iu_ene,*) (sigma(ipol,jpol),jpol=1,3)
+collect_everything.f90:WRITE(stdout,'(/,2x,76("+"))')
+collect_everything.f90:WRITE(stdout,'(5x,"Collecting the results and writing fildyn files")') 
+collect_everything.f90:WRITE(stdout,'(2x,76("+"),/)')
+compute_density.f90:         IF (ia==1) WRITE(stdout,*)
+compute_density.f90:         WRITE(stdout,'(5x,"Warning the mass of atom ",i5, f9.3,&
+compute_density.f90:   WRITE(stdout,'(/,5x,"Total mass of this unit cell ",3x,f14.4," a.m.u.")') &
+compute_density.f90:   WRITE(stdout,'(5x, "Expected mass of this unit cell ",f14.4," a.m.u.")') &
+compute_density.f90:   WRITE(stdout,'(5x, "Density of this solid ",9x,f15.2," kg/m^3",&
+compute_density.f90:   WRITE(stdout,'(5x, "Expected density of this solid ", f15.2," kg/m^3",&
+compute_density.f90:   WRITE(stdout,'(/,5x,"Total mass of this unit cell ",f15.4," a.m.u.")') &
+compute_density.f90:   WRITE(stdout,'(5x,"Density of this solid ",7x,f15.2," kg/m^3",&
+do_berry.f90:  IF ( ionode ) WRITE( unit = stdout, FMT = 9010 ) ntypx, npk, lmaxx
+do_berry.f90:  IF ( gamma_only ) WRITE( UNIT = stdout, &
+do_pwscf.f90:  IF ( ionode ) WRITE( unit = stdout, FMT = 9010 ) ntypx, npk, lmaxx
+do_pwscf.f90:  IF ( gamma_only ) WRITE( UNIT = stdout, &
+dos_sub.f90:     WRITE( stdout,'(/5x,"Gaussian broadening (read from input): ",&
+dos_sub.f90:     WRITE( stdout,'(/5x,"Tetrahedra used"/)')
+dos_sub.f90:     WRITE( stdout,'(/5x,"Gaussian broadening (read from file): ",&
+dos_sub.f90:     WRITE( stdout,'(/5x,"Broadening (default values): ",&
+dos_sub.f90:  WRITE(stdout,'(/,5x,"Delta e=", f15.8, ", ndos= ", i9)') deltae, ndos
+dos_sub.f90:  WRITE(stdout,*)
+dos_sub.f90:     IF (MOD(n,10000)==0) WRITE(stdout,&
+dos_sub.f90:     WRITE(stdout,'(/,5x, "Fermi energy from nscf run", f19.8, " eV")')  &
+dos_sub.f90:     WRITE(stdout,'(/,5x, "Fermi energy with dos parameters", &
+dos_sub.f90:        WRITE(iu_dos,'("#  E (eV)   dos(E)     Int dos(E)")')
+dos_sub.f90:        WRITE(iu_dos,'("#  E (eV)   dosup(E)     dosdw(E)   Int dos(E)")')
+dos_sub.f90:           WRITE (iu_dos, '(f15.9,2e16.8)') e(n)*rytoev, dosofe(1,n)/rytoev,&
+dos_sub.f90:           WRITE (iu_dos, '(f15.9,3e16.8)') e(n)*rytoev, dosofe(:,n)/rytoev,&
+elastic_constants_t.f90:WRITE(stdout, '(/,80("*"))')
+elastic_constants_t.f90:WRITE(stdout, '(5x,"Computing geometry ", i5)') igeom
+elastic_constants_t.f90:WRITE(stdout, '(5x,"Computing the elastic constant for celldm")')
+elastic_constants_t.f90:WRITE(stdout, '(5x,6f12.5)') celldm(:)
+elastic_constants_t.f90:WRITE(stdout, '(5x,"Unit cell volume",f12.5)') omega
+elastic_constants_t.f90:WRITE(stdout, '(5x,"Cartesian axes")')
+elastic_constants_t.f90:WRITE(stdout, '(5x,"site n.     atom                  positions (alat units)")')
+elastic_constants_t.f90:WRITE( stdout, '(6x,i4,8x,a6," tau(",i4,") = (",3f12.7,"  )")') &
+elastic_constants_t.f90:WRITE(stdout,'(80("*"),/)')
+ev_sub.f90:         WRITE(iun,'("# equation of state: birch 1st order.  chisq = ", &
+ev_sub.f90:         WRITE(iun,'("# equation of state: birch 3rd order.  chisq = ", &
+ev_sub.f90:         WRITE(iun,'("# equation of state: keane.            chisq = ", &
+ev_sub.f90:         WRITE(iun,'("# equation of state: murnaghan.        chisq = ", &
+ev_sub.f90:         WRITE(iun,'("# a0 =",f8.4," a.u., k0 =",i5," kbar, dk0 =", &
+ev_sub.f90:         WRITE(iun,'("# a0 =",f9.5," Ang, k0 =", f6.1," GPa,  V0 = ", &
+ev_sub.f90:        WRITE(iun,'(73("#"))')
+ev_sub.f90:        WRITE(iun,'("# Lat.Par", 7x, "E_calc", 8x, "E_fit", 7x, &
+ev_sub.f90:           WRITE(iun,'("# Ang", 13x, "Ry", 11x, "Ry", 12x, &
+ev_sub.f90:           WRITE(iun,'(73("#"))')
+ev_sub.f90:           WRITE(iun,'(f9.5,2x,f12.5, 2x,f12.5, f12.5, 3x, f8.2, 3x,f12.5)') &
+ev_sub.f90:           WRITE(iun,'("# a.u.",12x, "Ry", 11x, "Ry", 12x, &
+ev_sub.f90:           WRITE(iun,'(73("#"))')
+ev_sub.f90:           WRITE(iun,'(f9.5,2x,f12.5, 2x,f12.5, f12.5, 3x, f8.2, 3x,f12.5)') &
+ev_sub.f90:         WRITE(iun,'("# V0 =",f8.2," a.u.^3,  k0 =",i5," kbar,  dk0 =", &
+ev_sub.f90:         WRITE(iun,'("# V0 =",f8.2,"  Ang^3,  k0 =",f6.1," GPa"/)') &
+ev_sub.f90:        WRITE(iun,'(74("#"))')
+ev_sub.f90:        WRITE(iun,'("# Vol.", 8x, "E_calc", 8x, "E_fit", 7x, &
+ev_sub.f90:          WRITE(iun,'("# Ang^3", 9x, "Ry", 11x, "Ry", 12x, &
+ev_sub.f90:          WRITE(iun,'(74("#"))')
+ev_sub.f90:           WRITE(iun,'(f8.2,2x,f12.5, 2x,f12.5, f12.5, 3x, f8.2, 3x,f12.5)') &
+ev_sub.f90:          WRITE(iun,'("# a.u.^3",8x, "Ry", 11x, "Ry", 12x, &
+ev_sub.f90:          WRITE(iun,'(74("#"))')
+ev_sub.f90:           WRITE(iun,'(f8.2,2x,f12.5, 2x,f12.5, f12.5, 3x, f8.2, 3x,f12.5)') &
+matdyn_sub.f90:  WRITE(stdout,'(/,2x,76("+"))')
+matdyn_sub.f90:  WRITE(stdout,'(5x,"Interpolating the dynamical matrices")')
+matdyn_sub.f90:  WRITE(stdout,'(5x,"Reading the interatomic force constants from file")') 
+matdyn_sub.f90:  WRITE(stdout,'(5x,a)') TRIM(filefrc)
+matdyn_sub.f90:  WRITE(stdout,'(2x,76("+"),/)')
+matdyn_sub.f90:     IF ( MOD(n-nstart+1,20000) == 0 ) WRITE(stdout, '(5x,"Computing q ",&
+matdyn_sub.f90:           WRITE(stdout,*) total_weight
+plan_avg_sub.f90:        WRITE(iun,'(i5)') ibrav
+plan_avg_sub.f90:        WRITE(iun,'(6f15.8)') celldm 
+plan_avg_sub.f90:        WRITE(iun,'(i8)') nat
+plan_avg_sub.f90:           WRITE(iun,'(a3,3f20.10)') atm(ityp(na)), tau(:,na)
+plan_avg_sub.f90:        WRITE(iun, '(4i8)') dfftp%nr3, nbnd, nkstot, nspin
+plan_avg_sub.f90:           WRITE(iun,'(2i8)') ik_index, ibnd
+plan_avg_sub.f90:              WRITE(iun,'(i8,4f12.7)') ir, plan(ir, 1:nspin, ibnd)
+plan_avg_sub.f90:  WRITE(stdout,'(/,5x,"Computing the average charge of each state on each &
+plan_avg_sub.f90:  WRITE(stdout,'(5x,"Found ",i5," layers. FFT nr3 is", i5)') ninter,dfftp%nr3  
+plan_avg_sub.f90:  WRITE(stdout,'(5x, "Layer number    starts    ends")') 
+plan_avg_sub.f90:  WRITE(stdout,'(5x,3i9)') iin, i1(ninter), i1(iin)-1
+plan_avg_sub.f90:     WRITE(stdout,'(5x,3i9)') iin+1, i1(iin), i1(iin+1)-1
+plan_avg_sub.f90:  WRITE(stdout,'(5x,"vacuum",2i9)') vacuum1, vacuum2
+plan_avg_sub.f90:  WRITE(stdout,*)
+plan_avg_sub.f90:  WRITE(stdout,'(5x, "The points of the fft mesh closest &
+plan_avg_sub.f90:  WRITE(stdout,'(5x, "Atom number     i3       tau_z")')
+plan_avg_sub.f90:     WRITE(stdout,'(5x,2i9,f15.7)') na, ind, tau(3,na)
+plan_avg_sub.f90:  WRITE(stdout,*)
+plot_2d_bz.f90:WRITE(stdout,'(/,5x,"Brillouin zone type",i5,/)') ibz
+plotband_sub.f90:     WRITE(stdout, '(/,5x,"Reading ",i4," bands at ",i6," k-points")') nbnd, nks
+plotband_sub.f90:           WRITE(stdout,'("file with representations not compatible &
+plotband_sub.f90:        WRITE(stdout,'("Problem reading representation file")')
+plotband_sub.f90:               WRITE(stdout,'("Incompatible k points in rap file")')
+plotband_sub.f90:              WRITE(stdout,'(/,5x,"k points in wrong order, not using &
+plotband_sub.f90:     WRITE(stdout, '("Error reading k-point # ",i4)') n
+plotband_sub.f90:  WRITE(stdout,'(5x,"Starting the generation of the plot",/)') 
+plotband_sub.f90:  WRITE(stdout,'(5x,"Number of lines:", i4, " Total number of points:",i8)') &
+plotband_sub.f90:  IF (nkz>1) WRITE(stdout,'(/,5x,"Projected band structure calculation, &
+plotband_sub.f90:     WRITE(stdout,'(5x,"Line ",i5," starts at",f13.6," ends at ",f13.6)') &
+plotband_sub.f90:!     WRITE(stdout,'(5x,"Line ",i5," starts at",i5," ends at ",i5)') &
+plotband_sub.f90:              IF (ionode) WRITE (2,'(2f10.4)') (kx(n), e_eff(i,n), &
+plotband_sub.f90:              IF (ionode) WRITE (2,'(2f10.4)') (kx(n), e_eff(i,n),&
+plotband_sub.f90:           IF (ionode) WRITE(2,*)
+plotband_sub.f90:    WRITE(stdout,'(/,5x,"Representations per line:")')
+plotband_sub.f90:       WRITE(stdout,'(5x,"line ",i7, " nrap",i7,a11)') ilines, nrap(ilines), &
+plotband_sub.f90:                   IF (ionode) WRITE (2,'(2f10.4)') (kx(n), e_eff(i,n), & 
+plotband_sub.f90:                   IF (ionode) WRITE (2,'(2f10.4)') (kx(n), e_eff(i,n), &
+plotband_sub.f90:                IF (ionode) WRITE(2,*)
+plotband_sub.f90:                      IF (ionode) WRITE (2,'(2f10.4)') (kx(n), &
+plotband_sub.f90:                      IF (ionode) WRITE (2,'(2f10.4)') (kx(n), &
+plotband_sub.f90:                   IF (ionode) WRITE(2,*) 
+plotband_sub.f90:     WRITE(stdout,'(5x,"Bands in gnuplot format written to file ",a)') &
+plotband_sub.f90:     WRITE(stdout,'(5x,"Phonons in gnuplot format written to file ",a)') &
+plotband_sub.f90:     WRITE(stdout,'(5x,"Gruneisen parameters in gnuplot format written &
+plotband_sub.f90:     WRITE(stdout,'(5x,"Interpolated phonons in gnuplot format written &
+plotband_sub.f90:WRITE(stdout,'(/,5x, "Identifing surface states using charge &
+plotband_sub.f90:WRITE(stdout,'(5x, "with nlayers=",i5," layers per surface",/)') &
+plotband_sub.f90:   IF (plot(ilayers)) WRITE(stdout,'(5x, "Surface layer", i5)') ilayers
+plotband_sub.f90:WRITE(stdout,'(/,5x,"Layers are sets of FFT mesh planes perpendicular to the z")')
+plotband_sub.f90:WRITE(stdout,'(5x, "direction. The first layer contains the origin,")')
+plotband_sub.f90:WRITE(stdout,'(5x, "the other layers continue with positive z up to &
+plotband_sub.f90:WRITE(stdout, '(/,5x,"Maximum density on the chosen layers", f15.3)') maxsum 
+plotband_sub.f90:WRITE(stdout, '(5x,"Number of layers", i5)') nlayers
+plotband_sub.f90:   WRITE(stdout,'(5x,"Using sur_thr =",f15.3)') sur_thr
+plotband_sub.f90:   WRITE(stdout,'(5x,"Suggested sur_thr =",f15.3)') suggested_sur_thr
+plotband_sub.f90:   WRITE(stdout,'(5x,"Using sur_thr =",f15.3,/)') sur_thr
+plotband_sub.f90:WRITE(stdout,'(25x,30("-"),/)') 
+plotband_sub.f90:WRITE(stdout,'(5x,"Searching surface states for ",i6," k-points and ",&
+plotband_sub.f90:WRITE(stdout,'(5x,"Vacuum charge has been subtracted")')
+plotband_sub.f90:WRITE(stdout,'(5x,"ik,    ibnd,   charge on surface layers vacuum charge &
+plotband_sub.f90:         WRITE(stdout,'(5x,2i8,3f13.7,i5)') ik, ibnd, sumna(ibnd,ik), &
+plot_bz.f90:WRITE(stdout,'(/,5x,"Brillouin zone type",i5,/)') bzt
+plot_dos.f90:      WRITE(ylabel,'("set arrow from ",f13.5,",-ymax to ",f13.5,&
+plot_dos.f90:      WRITE(ylabel,'("set arrow from ",f13.5,",",f13.5," to ",f13.5,",",&
+plot_dos.f90:   WRITE(ylabel,'("set label ""E_F"" at",f13.5,",",f13.5)') &
+plot_dos.f90:      WRITE(ylabel,'("set arrow from xmin,0.0 to xmax, 0.0 nohead lw 2")')
+plot_dos.f90:   WRITE(ylabel,'("set yrange[",f13.6,":",f13.6,"]")') ymin1, ymax1
+plot_dos.f90:   WRITE(ylabel,'("set yrange[",f13.6,":",f13.6,"]")') ymin1, ymax1
+plot_multi_energy.f90:        WRITE(stdout,'(/,5x,"The plot will have ",i5," levels")') ncontours
+plot_multi_energy.f90:           WRITE(stdout,'(5x,"Level ",i5," Energy= ",f15.8," ", a)') icont, &
+print_polarization.f90:WRITE(stdout,'(/,5x,"The Berry phase polarization of this solid in &
+print_polarization.f90:WRITE(stdout,'(/,5x,"(", 2(f10.5,","), f10.5, "   ) phase ")')  polar(:)
+print_polarization.f90:WRITE(stdout,'(/,5x,"(", 2(f10.5,","), f10.5, "   ) e/(a.u.)^2")') &
+print_polarization.f90:WRITE(stdout,'(/,5x,"(", 2(f10.5,","), f10.5, "   ) C/m^2")') &
+print_polarization.f90:   WRITE(stdout,'(/,5x,"Please note that only differences of polarization")')
+print_polarization.f90:   WRITE(stdout,'(5x,"have physical meaning. If you know that this vector")')
+print_polarization.f90:   WRITE(stdout,'(5x,"should be zero by symmetry (see above), you can use")')
+print_polarization.f90:   WRITE(stdout,'(5x,"this vector as a zero reference.")')
+print_polarization.f90:   WRITE(stdout,'(5x,"If your solid can have a spontaneous polarization")')
+print_polarization.f90:   WRITE(stdout,'(5x,"you need to subtract an appropriate zero reference")')
+print_polarization.f90:   WRITE(stdout,'(5x,"to this vector to find the spontaneous polarization.")')
+print_polarization.f90:WRITE(stdout,'(/,20x,40("-"),/)')
+proj_band_structure.f90:      WRITE(iun, '(3i5,f12.6)') nbnd, nks, nlines, eref
+proj_band_structure.f90:         WRITE(iun,'(2i5)') start_point(ilines), last_point(ilines)
+proj_band_structure.f90:            WRITE(iun, '(i5,f12.7)', ERR=100, IOSTAT=ios) nbnd_plot(ik),&
+proj_band_structure.f90:            WRITE(iun, '(8f9.4)', ERR=100, IOSTAT=ios) (et1(ibnd,ik),&
+proj_band_structure.f90:            WRITE(iun, '(8f9.4)', ERR=100, IOSTAT=ios) (et2(ibnd,ik),&
+proj_band_structure.f90:      WRITE(stdout,'("Problems reading from file; no PBS plotted")')
+q2r_sub.f90:  WRITE(stdout,'(/,2x,76("+"))')
+q2r_sub.f90:  WRITE(stdout,'(5x,"Computing the interatomic force constants")')
+q2r_sub.f90:  WRITE(stdout,'(5x,"Writing on file ",a)') TRIM(filefrc)
+q2r_sub.f90:  WRITE(stdout,'(2x,76("+"),/)')
+q2r_sub.f90:     WRITE (stdout,'(/,5x,"Reading q grid from file ")') 
+q2r_sub.f90:     WRITE (stdout,'(5x,a)') TRIM(fildyn)//'0'
+q2r_sub.f90:     WRITE (stdout,'(/,5x,"Reading force constants from file")')
+q2r_sub.f90:     WRITE (stdout,'(5x,a)') TRIM(filin)
+q2r_sub.f90:     WRITE(stdout,*)
+q2r_sub.f90:        WRITE(stdout,'(5x,"q= ",3f12.8)') (q(i,nq),i=1,3)
+q2r_sub.f90:           WRITE (stdout,'(3i4)') (m(i),i=1,3)
+q2r_sub.f90:     WRITE (stdout,'(/5x,"q grid ok,  number points =",i5)') nq_log
+q2r_sub.f90:        WRITE(2,'(i3,i5,i3,6f11.7)') ntyp,nat,ibrav,celldm
+q2r_sub.f90:        IF (ibrav==0) WRITE (2,'(2x,3f15.9)') ((at(i,j),i=1,3),j=1,3)
+q2r_sub.f90:           WRITE(2,*) nt," '",atm(nt),"' ",amass(nt)
+q2r_sub.f90:           WRITE(2,'(2i5,3f18.10)') na,ityp(na),(tau(j,na),j=1,3)
+q2r_sub.f90:        WRITE (2,*) lrigid
+q2r_sub.f90:           WRITE(2,'(3f15.7)') ((epsil(i,j),j=1,3),i=1,3)
+q2r_sub.f90:              WRITE(2,'(i5)') na
+q2r_sub.f90:              WRITE(2,'(3f15.7)') ((zeu(i,j,na),j=1,3),i=1,3)
+q2r_sub.f90:        WRITE (2,'(4i4)') nr1, nr2, nr3
+q2r_sub.f90:                    WRITE (2,'(4i4)') j1,j2,na1,na2
+q2r_sub.f90:                             WRITE (2,'(3i4,2x,1pe18.11)')   &
+q2r_sub.f90:     WRITE (stdout,"(/,5x,'fft-check warning: sum of imaginary terms = ',&
+q2r_sub.f90:     WRITE (stdout,"(/,5x,'fft-check success (sum of imaginary terms < &
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,71("-"))')
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"Enthalpy")') 
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Pressure is :",f12.6)') pressure_kb
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"Energy")') 
+quadratic_fit.f90:!  WRITE(stdout,'(/,7x,"Energy (1)      Fitted energy (2)   DeltaE (1)-(2)")') 
+quadratic_fit.f90:!     WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+quadratic_fit.f90:  WRITE(stdout,'(5x,"chi square=",e18.5,/)') chisq
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,"Extremum of the quadratic found at:")')
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Enthalpy at the extremum",f18.12)') ymin
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:!    WRITE(stdout,'(/,7x,"Energy (1)    Fitted energy (2)   DeltaE (1)-(2)")') 
+quadratic_fit.f90:!       WRITE(stdout,'(2f10.4,2f19.12,e19.12)') x(1,idata), x(2,idata), f(idata), &
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"chi square=",e18.5,/)') chisq
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"Extremum of the quartic found at:")')
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Enthalpy at the extremum",f18.12)') ymin4
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Energy at the extremum",f18.12)') ymin4
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,70("-"))')
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Gibbs energy from phdos, at T= ", f12.6)') temp(itemp)
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Pressure is :",f12.6)') pressure_kb
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Helmholtz free energy from phdos, at T= ", f12.6)') &
+quadratic_fit.f90:!  WRITE(stdout,'(/,7x,"Energy (1)      Fitted energy (2)   DeltaE (1)-(2)")') 
+quadratic_fit.f90:!     WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+quadratic_fit.f90:  WRITE(stdout,'(5x,"chi square=",e18.5)') chisq
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,"Extremum of the quadratic found at:")')
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Gibbs energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Free energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:        WRITE(stdout,'(/,5x, "Fit improved with a fourth order polynomial")') 
+quadratic_fit.f90:        WRITE(stdout,'(/,5x,"Quartic fit used only a T=0:")')
+quadratic_fit.f90:!       WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+quadratic_fit.f90:     WRITE(stdout,'(5x,"chi square=",e18.5,/)') chisq
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"Extremum of the quartic found at:")')
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Gibbs energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Free energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,70("+"))')
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Gibbs energy from integration, at T= ", f12.6)') &
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Pressure is :",f12.6)') pressure_kb
+quadratic_fit.f90:     WRITE(stdout,'(5x, "Helmholtz Free energy from integration, at T= ", &
+quadratic_fit.f90:!  WRITE(stdout,'(/,7x,"Energy (1)      Fitted energy (2)   DeltaE (1)-(2)")') 
+quadratic_fit.f90:!     WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+quadratic_fit.f90:  WRITE(stdout,'(5x,"chi square=",e18.5)') chisq
+quadratic_fit.f90:  WRITE(stdout,'(/,5x,"Extremum of the quadratic found at:")')
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Gibbs energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:     WRITE(stdout,'(5x,"Free energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:        WRITE(stdout,'(/,5x, "Fit improved with a fourth order polynomial")') 
+quadratic_fit.f90:        WRITE(stdout,'(/,5x,"Quartic fit used only a T=0:")')
+quadratic_fit.f90:!       WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+quadratic_fit.f90:     WRITE(stdout,'(5x,"chi square=",e18.5,/)') chisq
+quadratic_fit.f90:     WRITE(stdout,'(/,5x,"Extremum of the quartic found at:")')
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Gibbs energy at the extremum",f18.12)') ymin
+quadratic_fit.f90:        WRITE(stdout,'(5x,"Free energy at the extremum",f18.12)') ymin
+read_state_densities.f90:        WRITE(iun, '(2f16.11)') ef, nelec
+read_state_densities.f90:        WRITE(iun, '(i8)') nqaux
+read_state_densities.f90:        WRITE(iun, '(9i8)') (label_disp_q(n), n=1,nqaux)
+read_state_densities.f90:        WRITE(iun, '(i8)') disp_nqs
+read_state_densities.f90:           WRITE(iun,'(i8)') nrap_plot(n)
+read_state_densities.f90:              WRITE(iun,'(9i8)') (rap_plot(i,n), i=1,nrap_plot(n))
+read_state_densities.f90:           WRITE(iun, '(2i8)') nkz, nkstot / nkz
+read_state_densities.f90:              WRITE(iun, '(15i4)') (aux_ind_sur(ik,ikz), ikz=1,nkz)
+run_thermo_asyncronously.f90:                 WRITE(stdout,'(/,2x,76("+"))')
+run_thermo_asyncronously.f90:                    WRITE(stdout,'(5x,"I am the master and now I do geometry", i5)') &
+run_thermo_asyncronously.f90:                    WRITE(stdout,'(5x,"I am the master and now I do the bands", i5)') 
+run_thermo_asyncronously.f90:                    WRITE(stdout,'(5x,"I am the master and now I do point", i5, &
+run_thermo_asyncronously.f90:                 WRITE(stdout,'(2x,76("+"),/)')
+run_thermo_asyncronously.f90:              WRITE(stdout,'(/,2x,76("+"))')
+run_thermo_asyncronously.f90:                 WRITE(stdout,'(5x,"I am image ", i5, " and now I do geometry", i5)') &
+run_thermo_asyncronously.f90:                 WRITE(stdout,'(5x,"I am image ", i5, " and now I do bands", i5)') &
+run_thermo_asyncronously.f90:                 WRITE(stdout,'(5x,"I am image ",i5," and now I do point", i5,  &
+run_thermo_asyncronously.f90:              WRITE(stdout,'(2x,76("+"),/)')
+run_thermo_asyncronously.f90:           WRITE(stdout,'(/,2x,76("+"))')
+run_thermo_asyncronously.f90:              WRITE(stdout,'(5x,"Doing geometry", i5)') iwork
+run_thermo_asyncronously.f90:              WRITE(stdout,'(5x,"Doing bands", i5)') 
+run_thermo_asyncronously.f90:              WRITE(stdout,'(5x,"Doing point", i5,  &
+run_thermo_asyncronously.f90:           WRITE(stdout,'(2x,76("+"),/)')
+set_thermo_work_todo.f90:           WRITE(stdout,'(/,2x,76("-"))')
+set_thermo_work_todo.f90:   WRITE(stdout,'(/,2x,76("-"))')
+sym_band_sub.f90:        WRITE(stdout, '(/,1x,74("*"))')
+sym_band_sub.f90:        WRITE(stdout, '(/,20x,"xk=(",2(f10.5,","),f10.5,"  )")') &
+sym_band_sub.f90:           WRITE(stdout,'(/,5x,"zone border point and non-symmorphic group ")')
+sym_band_sub.f90:           WRITE(stdout,'(5x,"symmetry decomposition not available")')
+sym_band_sub.f90:           WRITE(stdout, '(/,1x,74("*"))')
+sym_band_sub.f90:           WRITE (iunout, '(" &plot_rap nbnd_rap=",i8,", nks_rap=",i8," /")') &
+sym_band_sub.f90:              WRITE(stdout,'(/,5x,"Band symmetry, ",a11," [",a11, &
+sym_band_sub.f90:              WRITE(stdout,'(5x,"using ",a11,/)') gname_is
+sym_band_sub.f90:              WRITE(stdout,'(/,5x,"Band symmetry, ",a11,&
+sym_band_sub.f90:           WRITE(stdout,'(/,5x,"Band symmetry, ",a11," point group:",/)') &
+sym_band_sub.f90:                    WRITE(stdout,'(5x,"e(",i3," -",i3,") = ",f12.5,2x,&
+sym_band_sub.f90:                       WRITE(stdout,'(5x, "e(",i3," -",i3,") = ",&
+sym_band_sub.f90:                       WRITE(stdout,'(5x,"e(",i3," -",i3,") = ",&
+sym_band_sub.f90:                    WRITE(stdout,'(5x,"e(",i3," -",i3,") = ",f12.5,2x,&
+sym_band_sub.f90:                       WRITE(stdout,'(5x, "e(",i3," -",i3,") = ",&
+sym_band_sub.f90:                       WRITE(stdout,'(5x,"e(",i3," -",i3,") = ",&
+sym_band_sub.f90:        WRITE( stdout, '(/,1x,74("*"))')
+sym_band_sub.f90:        WRITE (iunout, '(10x,3f10.6,l5,2i5)') xk(1,ik), xk(2,ik), xk(3,ik), &
+sym_band_sub.f90:        WRITE (iunout, '(10i8)') (rap_et(ibnd,ik), ibnd=1,nbnd)
+sym_band_sub.f90:        WRITE(iun, '(5i8)') nat, nlayers, nbnd, nkstot, nspin     
+sym_band_sub.f90:        WRITE(iun, '(4i8)') surface1, surface2    
+sym_band_sub.f90:              WRITE(iun,'(2i8)') ik, ibnd
+sym_band_sub.f90:                WRITE(iun,'(i8,4f17.12)') ilayer, averag(ilayer, 1:nspin, &
+sym_band_sub.f90:              WRITE(iun,'(4f20.12)') vacuum(1:nspin,ibnd, ik)
+thermo_pw.f90:           WRITE(stdout,'(/,2x,76("+"))')
+thermo_pw.f90:           WRITE(stdout,'(5x,"Doing a self-consistent calculation", i5)') 
+thermo_pw.f90:           WRITE(stdout,'(2x,76("+"),/)')
+thermo_pw.f90:              WRITE(stdout,'(/,2x,76("+"))')
+thermo_pw.f90:              WRITE(stdout,'(5x,"Doing a non self-consistent calculation",&
+thermo_pw.f90:              WRITE(stdout,'(2x,76("+"),/)')
+thermo_pw.f90:              WRITE(stdout,'(5x,"The code stops because max_geometries is",&
+Binary file thermo_pw.x matches
+thermo_readin.f90:           WRITE (iun_image(image),'(A)') TRIM(dummy)
+thermo_readin.f90:        WRITE(stdout,'(/,5x,"Force_conv_thr is too large for computing the &
+thermo_readin.f90:        WRITE(stdout,'(5x,"5.d-5 or lower is required")')
+thermo_readin.f90:        WRITE(stdout,'(/,5x,"Deltae set to",f20.9," Ry")') deltae
+thermo_readin.f90:  WRITE(stdout,'(/,5x, "k points coordinates (2 pi / alat)")') 
+thermo_readin.f90:     WRITE(stdout, '(a3, 3f15.8,i5)') letter_path(ik), xqaux(:,ik), &
+thermo_readin.f90:  WRITE(stdout,*)
+thermo_readin.f90:  WRITE(stdout,'(5x, "Input path: ")') 
+thermo_readin.f90:  WRITE(stdout,'(i5)') nqaux
+thermo_readin.f90:         WRITE(stdout, '(3x, 3f15.8,i5)')  xqaux(:,ik), wqaux(ik)
+thermo_readin.f90:         WRITE(stdout, '(a3, i8)') letter_path(ik), wqaux(ik)
+thermo_readin.f90:  WRITE(stdout,*)
+thermo_summary.f90:  WRITE(stdout,'(/)')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Plotting the Brillouin Zone and k points path")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a single scf calculation")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a band calculation")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Use what=plot_bz to visualize the BZ path")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a electronic bands dos calculation")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a phonon calculation")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a phonon dispersion calculation")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Use what=plot_bz to visualize the BZ path")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Computing the harmonic thermodynamic quantities")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Calculating the volume that minimizes the energy")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Calculating the bands at the Murnaghan minimum &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Use what=plot_bz to visualize the BZ path")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Calculating the electronic bands dos at minimum &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a phonon calculation at the Murnaghan &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Doing a phonon dispersion calculation at the &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Use what=plot_bz to visualize the BZ path")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Computing the harmonic thermodynamic quantities")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Computing the lattice constant and the bulk" )')
+thermo_summary.f90:          WRITE(stdout,'(5x,"modulus as a function of temperature ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the frozen ions elastic constants ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the elastic constants ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the frozen ions elastic constants &
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the elastic constants at the &
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the frozen ions elastic constants &
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the elastic constants at &
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the frozen ions piezoelectric tensor")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the piezoelectric tensor")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the frozen ions piezoelectric tensor &
+thermo_summary.f90:             WRITE(stdout,'(5x,"Computing the piezoelectric tensor at the &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Computing the spontaneous polarization")')
+thermo_summary.f90:          WRITE(stdout,'(5x,"Computing the spontaneous polarization at the &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Testing the total energy convergence with k &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Testing the total energy convergence with kinetic &
+thermo_summary.f90:          WRITE(stdout,'(5x,"Plotting the surface band structure")')
+thermo_summary.f90:          IF (lprojpbs) WRITE(stdout,'(5x,"Only projected band structure")')
+thermo_summary.f90:  WRITE(stdout,'(/,5x,"FFT mesh: (",i5,",",i5,",",i5," )")') dfftp%nr1, &
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=1 Simple cubic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=2 Face centered cubic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=3 Body centered cubic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=4 Hexagonal lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=5 Trigonal lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=6 Simple tetragonal lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=7 Centered tetragonal lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=8 Simple orthorombic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=9 One face (C) centered orthorombic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=91 One face (A) centered orthorombic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=10 Face centered orthorombic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=11 Body centered orthorombic lattice")')
+thermo_summary.f90:            WRITE(stdout,'(/,5x, "ibrav=12 Monoclinic lattice (c unique)")')
+thermo_summary.f90:            WRITE(stdout,'(/,5x, "ibrav=12 Monoclinic lattice (b unique)")')
+thermo_summary.f90:            WRITE(stdout,'(/,5x, "ibrav=13 Centered monoclinic lattice &
+thermo_summary.f90:            WRITE(stdout,'(/,5x, "ibrav=-13 Centered monoclinic lattice &
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "No Brillouin Zone support. You must provide the path ")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=14 Triclinic lattice")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "No Brillouin Zone support. You must provide &
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "ibrav=0 user provided cell")')
+thermo_summary.f90:         WRITE(stdout,'(/,5x, "Be careful many options do not work with ibrav=0")')
+thermo_summary.f90:            WRITE(stdout,'(/,5x, "No Brillouin Zone support. You must provide&
+thermo_summary.f90:  WRITE( stdout, '(/,5x, &
+thermo_summary.f90:  WRITE( stdout, '(5x, &
+thermo_summary.f90:  WRITE( stdout, '(/,3x,"Cartesian axes")')
+thermo_summary.f90:  WRITE( stdout, '(/,5x,"site n.     atom                  positions (alat units)")')
+thermo_summary.f90:  WRITE( stdout, '(6x,i4,8x,a6," tau(",i4,") = (",3f12.7,"  )")') &
+thermo_summary.f90:  WRITE( stdout, '(/,3x,"Crystallographic axes")')
+thermo_summary.f90:  WRITE( stdout, '(/,5x,"site n.     atom        ", &
+thermo_summary.f90:  WRITE( stdout, '(6x,i4,8x,a6," tau(",i4,") = (",3f11.7,"  )")') &
+thermo_summary.f90:     WRITE(stdout,'(/,5x,"The point group, ",a,", is compatible with the&
+thermo_summary.f90:        WRITE(stdout,'(/,5x,"Space group ",a,"   (group number",i4, ").")') &
+thermo_summary.f90:        WRITE(stdout,'(/,5x,"Unknown space group.")') 
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has not inversion but, &
+thermo_summary.f90:                 WRITE(stdout,'(5x, "the spontaneous polarization, vanish.")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has not inversion but, &
+thermo_summary.f90:                 WRITE(stdout,'(5x, "the spontaneous polarization, vanish.")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "(  .   .   p3 )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has not inversion but, &
+thermo_summary.f90:                 WRITE(stdout,'(5x, "the spontaneous polarization, vanish.")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "(  .   .   p3 )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "(  .   .   p3 )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "( p1   p2   . )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "(  .   p2   .  )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "(  p1   .   p3 )")')
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "This solid has inversion symmetry.")')
+thermo_summary.f90:                 WRITE(stdout,'(5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "First-rank tensors, such as the &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x, "( p1   p2   p3 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11   .    .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .   e11   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .    .   e11 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11   .    .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .   e11   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .    .   e33 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11   .    .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .   e22   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .    .   e33 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11  e12   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "( e12  e22   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .    .   e33 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11   .   e13 )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "(  .   e22   .  )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "( e13   .   e33 )")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "Second-rank tensors, such as the dielectric")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "tensor or the thermal expansion, have the form")')
+thermo_summary.f90:              WRITE(stdout,'(/,5x, "( e11  e12  e13 )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "( e12  e22  e23 )")')
+thermo_summary.f90:              WRITE(stdout,'(5x, "( e13  e23  e33 )")')
+thermo_summary.f90:        WRITE(stdout,'(/,5x,"The piezoelectric tensor is defined as the derivative &
+thermo_summary.f90:        WRITE(stdout,'(5x,"with respect to strain (in zero electric field).")')
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"Solid with inversion symmetry.")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"Third-rank tensors, such as the piezoelectic&
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"( g11  g12  g13   .   g15   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   g24   .   g26 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( g31  g32  g33   .   g35   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"( g11  g12  g13   .    .   g16 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( g21  g22  g23   .    .   g26 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   g16  g26   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires five strains: e1, e2, e3, e4, &
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"(  .    .    .   g14   .   g16 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( g21  g22  g23   .   g25   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   g34   .   g36 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"(  .    .    .   g14  g15   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   g24  g25   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( g31  g32  g33   .    .   g66 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires all six strains")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"In this class the piezoelectric tensor is")')
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14  g15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   g24 -g14   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g31  g33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires four strains: e1, e3, e4, and e5")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   g25   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   g36 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires two strains: e4, e5, and e6")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( g11 -g11   .   g14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .  -g14 2g11 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires two strains: e1 and e4")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .  -g14   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires one strain: e4")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .    .   g15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   g24   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g32  g33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires five strains: e1, e2, e3, e4,&
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .    .   g15 -g21 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g21 -g21   .   g15   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g31  g33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires three strain: e1, e3, and e4 ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .    .   g15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   g15   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g31  g33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires three strain: e1, e3, and e4 ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( g11 -g11   .    .    .  -g12 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g12 -g12   .    .    .   g11 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires one strain: e1 ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .    .    .  -g12 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g12 -g12   .    .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires one strain: e1 ")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   g14   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   g34 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires two strains: e4 and e6")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14  g15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .  -g15  g14   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31 -g31   .    .    .   g36 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires three strains: e1, e4, and e6")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"(  .    .    .   g14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   g14   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   g14 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires one strain: e4")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"Solid with O symmetry. The &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"With this point group the piezoelectric &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( g11  g12  g13  g14  g15  g16 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g21  g22  g23  g24  g25  g26 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g32  g33  g34  g35  g36 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires all six strains")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:    WRITE(stdout,'(/,5x,"The Laue class is ", a)') group_name(laue)
+thermo_summary.f90:       WRITE(stdout,'(/,5x,"In this class the elastic tensor is")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"( c11  c12  c13   .   c15   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c12  c22  c23   .   c25   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c13  c23  c33   .   c35   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   c44   .   c46 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c15  c25  c35   .   c55   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   c46   .   c66 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"( c11  c12  c13   .    .   c16 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c12  c22  c23   .    .   c26 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c13  c23  c33   .    .   c36 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .   c44   .   c46 )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"(  .    .    .    .   c55   .  )")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"( c15  c25  c36  c46   .   c66 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires all six strains")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( c11  c12  c13   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c22  c23   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c23  c33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   c44   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c55   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   c66 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires all six strains")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( c11  c12  c13   .    .   c16 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c13   .    .  -c16 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c13  c33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   c44   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c44   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c16 -c16   .    .    .   c66 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires four strains: e1, e3, e4, e6")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( c11  c12  c13   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c13   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c13  c33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   c44   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c44   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   c66 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires four strains: e1, e3, &
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c11  c12  c13  c14  c15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c13 -c14 -c15   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c13  c33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c14 -c14   .   c44   .  -c15 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c15 -c15   .    .   c44  c14 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .  -c1   c14   X  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"X=(c11-c12)/2")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires three strains: e1, e3, &
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c11  c12  c13  c14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c13 -c14   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c13  c33   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c14 -c14   .   c44   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c44  c14 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c14   X  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"X=(c11-c12)/2")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires three strains: e1, e3, &
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c11  c12  c13   .    .    . )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c13   .    .    . )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c13  c33   .    .    . )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   c44   .    . )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c44   . )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .    X )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"X=(c11-c12)/2")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires three strains: e1, e3, &
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( c11  c12  c12   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c11  c12   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c12  c11   .    .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .   c44   .    .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .   c44   .  )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"(  .    .    .    .    .   c44 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires two strains: e1 and e4")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:                WRITE(stdout,'(5x,"Laue class not programmed using C_i")')   
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( c11  c12  c13  c14  c15  c16 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c12  c22  c23  c24  c25  c26 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c13  c23  c33  c34  c35  c36 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c14  c24  c34  c44  c45  c46 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c15  c25  c35  c45  c55  c56 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( c16  c26  c36  c46  c56  c66 )")') 
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"It requires all six strains")') 
+thermo_summary.f90:                WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:    WRITE(stdout,'(/,5x,"ibrav=0 or Bravais lattice not compatible with &
+thermo_summary.f90:    WRITE(stdout,'(/,5x,"I will not use symmetry.")')
+thermo_summary.f90:    WRITE(stdout,'(/,5x,"Cannot use the Laue class with ibrav=0, &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"Solid with inversion symmetry.")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"First-rank tensors, such as the spontaneous &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"Solid without inversion symmetry.")')
+thermo_summary.f90:       WRITE(stdout,'(/,5x, "All components of second order tensors such as")')
+thermo_summary.f90:       WRITE(stdout,'(5x, "the dielectric tensor or the thermal expansion are &
+thermo_summary.f90:       WRITE(stdout,'(/,5x, "( e11  e12  e13 )")')
+thermo_summary.f90:       WRITE(stdout,'(5x, "( e12  e22  e23 )")')
+thermo_summary.f90:       WRITE(stdout,'(5x, "( e13  e23  e33 )")')
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"Solid with inversion symmetry.")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"Third-rank tensors, such as the piezoelectic &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"I will take a piezoelectric tensor of the &
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"( g11  g12  g13  g14  g15  g16 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g21  g22  g23  g24  g25  g26 )")') 
+thermo_summary.f90:             WRITE(stdout,'(5x,"( g31  g32  g33  g34  g35  g36 )")') 
+thermo_summary.f90:             WRITE(stdout,'(/,5x,"It requires all six strains")')
+thermo_summary.f90:             WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:       WRITE(stdout,'(/,5x,"I will use elastic constants with the form")')
+thermo_summary.f90:       WRITE(stdout,'(/,5x,"( c11  c12  c13  c14  c15  c16 )")') 
+thermo_summary.f90:       WRITE(stdout,'(5x,"( c12  c22  c23  c24  c25  c26 )")') 
+thermo_summary.f90:       WRITE(stdout,'(5x,"( c13  c23  c33  c34  c35  c36 )")') 
+thermo_summary.f90:       WRITE(stdout,'(5x,"( c14  c24  c34  c44  c45  c46 )")') 
+thermo_summary.f90:       WRITE(stdout,'(5x,"( c15  c25  c35  c45  c55  c56 )")') 
+thermo_summary.f90:       WRITE(stdout,'(5x,"( c16  c26  c36  c46  c56  c66 )")') 
+thermo_summary.f90:          WRITE(stdout,'(/,5x,"It requires all six strains")') 
+thermo_summary.f90:          WRITE(stdout,'(5x,"for a total of",i3," scf calculations")') &
+thermo_summary.f90:   WRITE(stdout,'(5x,"The Murnaghan relaxation will require", &
+thermo_summary.f90:WRITE(stdout,'(/,5x,70("-"))')
+thermo_summary.f90:   WRITE(stdout,'(5x,"Ions are not relaxed")')
+thermo_summary.f90:   WRITE(stdout,'(5x,"Ions are relaxed in each calculation")')
+thermo_summary.f90:WRITE(stdout,'(5x,70("-"))')
+thermo_summary.f90:        WRITE(stdout,'(/,5x,"Computing the X-ray powder diffraction intensities")')
+thermo_summary.f90:                WRITE(stdout,'(/,5x,"Form factors from Cromer-Mann &
+thermo_summary.f90:                 WRITE(stdout,'(/,5x,"Form factors from Doyle-Turner &
+thermo_summary.f90:   WRITE(stdout,'(5x,"ibrav=0, many features are not implemented")')
+thermo_summary.f90:   WRITE(stdout,'(5x,"The point group ",a11," is compatible with:")') &
+thermo_summary.f90:         WRITE(stdout,'(5x,a)') TRIM(latt_name)
+thermo_summary.f90:   WRITE(stdout,'(/,5x,a," is incompatible with the ",&
+thermo_summary.f90:   WRITE(stdout,'(5x,"It is compatible with the ")') 
+thermo_summary.f90:         WRITE(stdout,'(5x,a," Bravais lattice; ibrav=",i5)') TRIM(latt_name), &
+thermo_summary.f90:   WRITE(stdout,'(/,5x,"You might want to change the Bravais lattice or to")') 
+thermo_summary.f90:   WRITE(stdout,'(/,5x,"understand why the symmetries are wrong before&
+thermo_summary.f90:   WRITE(stdout,'(5x,"The point group or the Laue class are not used to &
+thermo_summary.f90:   WRITE(stdout,'(5x,"computed tensor components")') 
+write_anhar_anis.f90:   WRITE(iu_therm,'("# beta is the volume thermal expansion ")')
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)        V(T) (a.u.)^3       B_0(T) (kbar)    &
+write_anhar_anis.f90:         WRITE(iu_therm, '(e12.5,e20.13,2e15.6)') temp(itemp), vmin_t(itemp), &
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)        V(T) (a.u.)^3         &
+write_anhar_anis.f90:         WRITE(iu_therm, '(e12.5,e20.13,e15.6)') temp(itemp), vmin_t(itemp), &
+write_anhar_anis.f90:      WRITE(iu_therm,'("# gamma is the average Gruneisen parameter ")')
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)       gamma(T)       C_v ( Ry / cell ) &
+write_anhar_anis.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp),                  &
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)       (C_p - C_v)(T)  " )' )
+write_anhar_anis.f90:         WRITE(iu_therm, '(2e16.8)') temp(itemp), cpmcv_anis(itemp)
+write_anhar_anis.f90:   WRITE(iu_therm,'("# alpha is the linear thermal expansion ")')
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)        V(T) (a.u.)^3           beta (x10^6)  ")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,e20.13,e15.6)') temp(itemp), vminf_t(itemp), &
+write_anhar_anis.f90:      WRITE(iu_therm,'("# gamma is the average Gruneisen parameter ")')
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)       gamma(T)       C_v ( Ry / cell ) &
+write_anhar_anis.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp),                  &
+write_anhar_anis.f90:      WRITE(iu_therm,'("#   T (K)       (C_p - C_v)(T)  " )' )
+write_anhar_anis.f90:         WRITE(iu_therm, '(2e16.8)') temp(itemp), cpmcvf_anis(itemp)
+write_anhar_anis.f90:   WRITE(stdout,'(5x,"Thermal expansions from Gruneisen parameters &
+write_anhar_anis.f90:   WRITE(stdout,'(5x,"The elastic constants are needed to compute ")')
+write_anhar_anis.f90:   WRITE(stdout,'(5x,"thermal expansions from Gruneisen parameters")')
+write_anhar_anis.f90:WRITE(stdout,'(/,2x,76("+"))')
+write_anhar_anis.f90:WRITE(stdout,'(5x,"Computing the anharmonic properties from &
+write_anhar_anis.f90:WRITE(stdout,'(5x,"Writing on file anhar_files/",a)') TRIM(flanhar)// &
+write_anhar_anis.f90:WRITE(stdout,'(2x,76("+"),/)')
+write_anhar_anis.f90:             WRITE(6,'(5x,"Computing temperature ", i5 " / ",&
+write_anhar_anis.f90:   WRITE(iu_therm,'("# gamma is the average gruneisen parameter ")')
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)     beta(T)    gamma(T)      &
+write_anhar_anis.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp), betab(itemp)*1.D6,   &
+write_anhar_anis.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp), betab(itemp)*1.D6,    &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)        celldm(1)         alpha_xx(x10^6)")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,4e20.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)         celldm(1)          celldm(3)          alpha_xx(x10^6)         alpha_zz (x10^6)")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,4e20.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)   celldm(1)   celldm(4)    alpha_xx(x10^6)   alpha_zz (x10^6)")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,4e20.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)   celldm(1)     celldm(2)    celldm(3) &
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,6e20.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)       celldm(1)         celldm(2)        celldm(3)        celldm(4)")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,4e17.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)       celldm(1)         celldm(2)        celldm(3)        celldm(5)")' )
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,4e17.9)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar_anis.f90:   WRITE(iu_therm,'("#   T (K)       celldm(1)         celldm(2)        &
+write_anhar_anis.f90:      WRITE(iu_therm, '(e12.5,6e15.7)') temp(itemp), celldmf_t(1,itemp), &
+write_anhar.f90:   WRITE(iu_therm,'("# gamma is the average gruneisen parameter ")')
+write_anhar.f90:   WRITE(iu_therm,'("#   T (K)   beta(T)x10^6    gamma(T)      &
+write_anhar.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp), betab(itemp)*1.D6,    &
+write_anhar.f90:         WRITE(iu_therm, '(5e16.8)') temp(itemp), betab(itemp)*1.D6,    &
+write_anhar.f90:WRITE(iu_therm,'("# beta is the volume thermal expansion ")')
+write_anhar.f90:WRITE(iu_therm,'("#   T (K)     V(T) (a.u.)^3   B (T) (kbar) &
+write_anhar.f90:   WRITE(iu_therm, '(e12.5,e20.13,2e14.6,e18.8)') temp(itemp), &
+write_anhar.f90:WRITE(iu_therm,'("# gamma is the average gruneisen parameter ")')
+write_anhar.f90:WRITE(iu_therm,'("#   T (K)       gamma(T)     C_v ( Ry / cell / K ) &
+write_anhar.f90:   WRITE(iu_therm, '(5e16.8)') temp(itemp),               &
+write_e_ke.f90:      WRITE(iu_eke,'("#   E_kin (Ry)       E_tot (Ry) ")' )
+write_e_ke.f90:         WRITE(iu_eke, '(2e20.10)') ke(ike), energy_geo( ike + (iden-1) * nke ) 
+write_elastic_t.f90:         WRITE(stdout,'(/,5x,"Fitting elastic constants C(",i4,",",i4,")")')&
+write_elastic_t.f90:            WRITE(stdout,'(3f19.12)') f(idata), aux, f(idata)-aux
+write_elastic_t.f90:         WRITE(stdout,'(5x,"chi square=",e18.5," relative error",e18.5,&
+write_elastic_t.f90:       !    WRITE(stdout,'(/,7x,"Energy (1)    Fitted energy (2)   &
+write_elastic_t.f90:!              WRITE(stdout,'(2f10.4,2f19.12,e19.12)') x(1,idata), x(2,idata),
+write_elastic_t.f90:            WRITE(stdout,'(5x,"chi square=",e18.5," relative error",e18.5,&
+write_elastic_t.f90:         WRITE(iu_el_cons,'("#",5x,"   T  ", 10x, " C_11 ", 9x, "  C_12 ",&
+write_elastic_t.f90:            WRITE(iu_el_cons,'(e16.8,4e20.12)') temp(itemp), &
+write_elastic_t.f90:         WRITE(iu_el_cons,'("#",5x,"   T  ", 10x, " C_11 ", 9x, " C_12 ",&
+write_elastic_t.f90:            WRITE(iu_el_cons,'(e16.8,6e20.12)') temp(itemp), &
+write_el_thermo.f90:WRITE(stdout,'(/,2x,76("+"))')
+write_el_thermo.f90:WRITE(stdout,'(5x,"Computing the thermodynamic properties from electron dos")')
+write_el_thermo.f90:WRITE(stdout,'(5x,"Writing on file ",a)') TRIM(fleltherm)
+write_el_thermo.f90:WRITE(stdout,'(2x,76("+"),/)')
+write_el_thermo.f90:WRITE(stdout,'(/,5x, "Chemical potential (mu) at T=", f13.5," K  =", &
+write_el_thermo.f90:   WRITE(stdout,'(/,5x,"Density of up states at mu =     ",&
+write_el_thermo.f90:   WRITE(stdout,'(5x,  "Density of down states at mu =   ",&
+write_el_thermo.f90:   WRITE(stdout,'(/,5x,"Derivative of the up dos at mu =   ",&
+write_el_thermo.f90:   WRITE(stdout,'(5x,  "Derivative of the down dos at mu = ",&
+write_el_thermo.f90:WRITE(stdout,'(/,5x,"Density of states (g) at mu =",f19.8,&
+write_el_thermo.f90:WRITE(stdout,'(/,5x,"Derivative of the dos (g'') at mu =",f14.8,&
+write_el_thermo.f90:WRITE(stdout,'(/,5x,"g''/g at mu =", 21x, f15.8,&
+write_el_thermo.f90:   WRITE(iu_therm,'("#")')  
+write_el_thermo.f90:   WRITE(iu_therm,'("# Temperature T in K, ")')
+write_el_thermo.f90:   WRITE(iu_therm,'("# Chemical potential in Ry")') 
+write_el_thermo.f90:   WRITE(iu_therm,'("# Energy and free energy in Ry/cell,")')
+write_el_thermo.f90:   WRITE(iu_therm,'("# Entropy in Ry/cell/K,")')
+write_el_thermo.f90:   WRITE(iu_therm,'("# Heat capacity Cv in Ry/cell/K.")')
+write_el_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 to have energies in &
+write_el_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 x 23060.35 = 313 754.5 to have &
+write_el_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 x 96526.0 = 1 313 313 to &
+write_el_thermo.f90:   WRITE(iu_therm,'("# N is the number of formula units per cell.")')
+write_el_thermo.f90:   WRITE(iu_therm,'("# For instance in silicon N=2. Divide by N to have &
+write_el_thermo.f90:   WRITE(iu_therm,'("#",5x,"   T  ", 10x, " energy ", 9x, "  free energy ",&
+write_el_thermo.f90:      WRITE(iu_therm, '(e16.8,5e20.12)') temp(itemp), &
+write_e_nk.f90:      WRITE(iu_enk,'("#   nk1   nk2    nk3          E_tot (Ry) ")' )
+write_e_nk.f90:         WRITE(iu_enk, '(3i5,e20.10)') nk_test(1, ink), nk_test(2, ink), &
+write_ev_input.f90:        WRITE(iu_ev,'(2e30.15)') omega_geo(igeom), energy_geo(igeom) + &
+write_ev_input.f90:   WRITE(iu_ev,'("au")')
+write_ev_input.f90:   WRITE(iu_ev,'("hex")')
+write_ev_input.f90:   WRITE(iu_ev,'("4")')
+write_ev_input.f90:   WRITE(iu_ev,'(a)') TRIM(file_dat)
+write_ev_input.f90:   WRITE(iu_ev,'(a)') TRIM(file_dat)//'.ev.out'
+write_ev_input.f90:!  WRITE(stdout,*) 
+write_ev_input.f90:!       WRITE(stdout,'(2f25.14)') x(ndata), y(ndata)
+write_ev_input.f90:  WRITE(stdout,'(/,2x,76("-"))')
+write_ev_input.f90:  WRITE(stdout,'(5x, "free energy from phonon dos, at T= ", f12.6)') temp(itemp)
+write_ev_input.f90:     WRITE(stdout, '(5x,"pressure = ",f15.6," kbar")') pressure_kb
+write_ev_input.f90:  WRITE(stdout,'(5x, "The equilibrium lattice constant is ",9x,f12.4,&
+write_ev_input.f90:  WRITE(stdout,'(5x, "The bulk modulus is ",24x,f12.3,"  kbar")')  b0_t(itemp)
+write_ev_input.f90:  WRITE(stdout,'(5x, "The pressure derivative of the bulk modulus is ",&
+write_ev_input.f90:  WRITE(stdout,'(2x,76("-"),/)')
+write_ev_input.f90:!  WRITE(stdout,*) 
+write_ev_input.f90:!       WRITE(stdout,'(2f25.14)') x(ndata), y(ndata)
+write_ev_input.f90:  WRITE(stdout,'(/,2x,76("+"))')
+write_ev_input.f90:  WRITE(stdout,'(5x, "free energy from phonon frequencies at T=",f12.4)') &
+write_ev_input.f90:     WRITE(stdout, '(5x,"pressure = ",f15.6," kbar")') pressure_kb
+write_ev_input.f90:  WRITE(stdout,'(5x, "The equilibrium lattice constant is ",16x,f12.4,&
+write_ev_input.f90:  WRITE(stdout,'(5x, "The bulk modulus is ",31x,f12.3,"  kbar")')  b0f_t(itemp)
+write_ev_input.f90:  WRITE(stdout,'(5x, "The pressure derivative of the bulk modulus is ",5x,&
+write_ev_input.f90:  WRITE(stdout,'(2x,76("+"),/)')
+write_ev_input.f90:!   WRITE(stdout,'(5x,"Step", i4, " V1=", f20.12, " f= ", f20.12)') istep, v1, fx
+write_ev_input.f90:!WRITE(stdout,'("Vmin", 3f20.12)') vm
+write_gnuplot_energy.f90:                 WRITE(iu_ev,'(2e30.15)', ERR=20, IOSTAT=ios) &
+write_gnuplot_energy.f90:                  WRITE (iu_ev,'(3e25.12)', ERR=20, IOSTAT=ios) &
+write_gnuplot_energy.f90:                 WRITE(iu_ev,'(3e25.12)', ERR=20, IOSTAT=ios) &
+write_gnuplot_energy.f90:                    WRITE(iu_ev,'(3e25.12)', ERR=20, IOSTAT=ios) &
+write_gnuplot_energy.f90:                    WRITE(iu_ev,'(4e20.12)', ERR=20, IOSTAT=ios)  &
+write_gnuplot_energy.f90:                 WRITE(iu_ev,'(7e20.12)', ERR=20, IOSTAT=ios)  &
+write_gruneisen_band_anis.f90:        WRITE(stdout, '("Reading ",i4," dispersions at ",i6," k-points for&
+write_gruneisen_band_anis.f90:  WRITE(stdout,'(/,5x,"Plotting Gruneisen parameters at celldm:")') 
+write_gruneisen_band_anis.f90:  WRITE(stdout,'(5x,6f12.7)') cm 
+write_gruneisen_band_anis.f90:            WRITE(stdout,'(5x,"Corresponding to T=",f17.8)') temp_ph
+write_gruneisen_band_anis.f90:              WRITE (iu_grun, '(" &plot nbnd=",i4,", nks=",i4," /")') &
+write_gruneisen_band_anis.f90:           WRITE (iu_grun, '(10x,3f13.7)') disp_q(1,n),disp_q(2,n),disp_q(3,n)
+write_gruneisen_band_anis.f90:           WRITE (iu_grun, '(6f13.7)') (gruneisen(icrys,ibnd,n), &
+write_gruneisen_band_anis.f90:          WRITE (iu_grun, '(" &plot nbnd=",i4,", nks=",i4," /")') &
+write_gruneisen_band_anis.f90:      WRITE (iu_grun, '(10x,3f13.7)') disp_q(1,n),disp_q(2,n),disp_q(3,n)
+write_gruneisen_band_anis.f90:      WRITE (iu_grun, '(6f13.7)') (frequency(ibnd,n), ibnd = 1, nbnd)
+write_gruneisen_band_anis.f90:   WRITE(stdout,'(5x,"temp_ph too large setting to",f15.8 )') temp(ntemp-1)
+write_gruneisen_band_anis.f90:   WRITE(stdout,'(5x,"temp_ph too small setting to",f15.8 )') temp(2)
+write_gruneisen_band.f90:  WRITE(stdout,*)
+write_gruneisen_band.f90:        WRITE(stdout, '(5x,"Reading ",i4," dispersions at ",i6," k-points for&
+write_gruneisen_band.f90:  WRITE(stdout,'(/,5x,"Plotting Gruneisen parameters at volume",f17.8,&
+write_gruneisen_band.f90:            WRITE(stdout,'(5x,"Corresponding to T=",f17.8)') temp_ph
+write_gruneisen_band.f90:            WRITE (iu_grun, '(" &plot nbnd=",i4,", nks=",i4," /")') &
+write_gruneisen_band.f90:         WRITE (iu_grun, '(10x,3f13.7)') k(1,n),k(2,n),k(3,n)
+write_gruneisen_band.f90:         WRITE (iu_grun, '(6f13.7)') (gruneisen(ibnd,n), ibnd = 1, nbnd)
+write_gruneisen_band.f90:            WRITE (iu_grun, '(" &plot nbnd=",i4,", nks=",i4," /")') &
+write_gruneisen_band.f90:         WRITE (iu_grun, '(10x,3f13.7)') k(1,n),k(2,n),k(3,n)
+write_gruneisen_band.f90:         WRITE (iu_grun, '(6f13.7)') (frequency(ibnd,n), ibnd = 1, nbnd)
+write_gruneisen_band.f90:   WRITE(stdout,'(5x,"temp_ph too large setting to",f15.8 )') temp(ntemp-1)
+write_gruneisen_band.f90:   WRITE(stdout,'(5x,"temp_ph too small setting to",f15.8 )') temp(2)
+write_minimum_energy_data.f90:  WRITE(stdout,'(/,2x,76("-"))')
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x,"At pressure ",f15.6," kbar")') pressure_kb
+write_minimum_energy_data.f90:     WRITE(stdout,*) 
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x, "The equilibrium lattice constant is ",9x,f12.4,&
+write_minimum_energy_data.f90:        WRITE(stdout,'(5x,"The minimum enthalpy is obtained for celldm")')
+write_minimum_energy_data.f90:        WRITE(stdout,'(5x,"The minimum energy is obtained for celldm")')
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x,6f12.5)') celldm0(:)
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x, "The bulk modulus is ",24x,f12.3,"  kbar")') b0
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x, "The pressure derivative of the bulk modulus is ",&
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x,"The enthalpy at the minimum is    ",6x,f20.9," Ry")') &
+write_minimum_energy_data.f90:     WRITE(stdout,'(5x,"The total energy at the minimum is",6x,f20.9," Ry")') &
+write_minimum_energy_data.f90:  WRITE(stdout,'(2x,76("-"),/)')
+write_mur.f90:      WRITE(iu_mur,'( "# omega (a.u.)**3      Gibbs energy (Ry)   pressure (kbar)" )')
+write_mur.f90:      WRITE(iu_mur,'( "# omega (a.u.)**3       energy (Ry)      pressure (kbar)" )')
+write_mur.f90:      WRITE(iu_mur,'(3f20.10)') omega, e, p + pressure_kb
+write_ph_dispersions.f90:     WRITE(stdout,'(/,2x,76("-"))')
+write_ph_dispersions.f90:     WRITE(stdout,'(5x,"Frequencies for dispersions are on file ")') 
+write_ph_dispersions.f90:     WRITE(stdout,'(5x,a)') TRIM(filefrq)
+write_ph_dispersions.f90:     WRITE(stdout,'(2x,76("-"),/)')
+write_ph_dispersions.f90:  WRITE(stdout,'(/,2x,76("+"))')
+write_ph_dispersions.f90:  WRITE(stdout,'(5x,"Interpolating the dynamical matrices")')
+write_ph_dispersions.f90:  WRITE(stdout,'(5x,"Frequencies written on file ")')
+write_ph_dispersions.f90:  WRITE(stdout,'(5x,a)') TRIM(filefrq)
+write_ph_dispersions.f90:  WRITE(stdout,'(2x,76("+"),/)')
+write_ph_dispersions.f90:     WRITE(2, '(" &plot nbnd=",i6,", nks=",i6," /")') 3*nat, nq
+write_ph_dispersions.f90:        WRITE(2, '(10x,3f10.6)')  disp_q(1,n), disp_q(2,n), disp_q(3,n)
+write_ph_dispersions.f90:        WRITE(2,'(6f10.4)') (freq_save(i,n), i=1,3*nat)
+write_ph_dispersions.f90:        WRITE(2, '(" &plot_rap nbnd_rap=",i6,", nks_rap=",i6," /")') 3*nat, nq
+write_ph_dispersions.f90:           WRITE(2,'(10x,3f10.6,l6,2i6)') disp_q(1,n), disp_q(2,n), &
+write_ph_dispersions.f90:           WRITE(2,'(6i10)') (num_rap_mode(i,n), i=1,3*nat)
+write_phdos.f90:        WRITE(stdout,'(/,2x,76("-"))')
+write_phdos.f90:        WRITE(stdout,'(5x,"Readin phdos from file ")') 
+write_phdos.f90:        WRITE(stdout,'(5x,a)') TRIM(filedos)
+write_phdos.f90:        WRITE(stdout,'(2x,76("-"),/)')
+write_phdos.f90:  WRITE(stdout,'(/,2x,76("+"))')
+write_phdos.f90:  WRITE(stdout,'(5x,"Writing phdos on file ",a)') 
+write_phdos.f90:  WRITE(stdout,'(5x,a)') TRIM(filedos)
+write_phdos.f90:  WRITE(stdout,'(2x,76("+"),/)')
+write_phdos.f90:        WRITE (2, '(ES30.15, ES30.15)') phdos_save(igeom)%nu(n),  &
+write_ph_freq.f90:     WRITE(stdout,'(/,2x,76("-"))')
+write_ph_freq.f90:     WRITE(stdout,'(5x,"Frequencies for BZ integrations read from file ")') 
+write_ph_freq.f90:     WRITE(stdout,'(5x,a)') TRIM(filename)
+write_ph_freq.f90:     WRITE(stdout,'(2x,76("-"),/)')
+write_ph_freq.f90:     WRITE(stdout,'(/,2x,76("+"))')
+write_ph_freq.f90:     WRITE(stdout,'(5x,"Writing frequencies for BZ integration on file ")') 
+write_ph_freq.f90:     WRITE(stdout,'(5x,a)') TRIM(filename)
+write_ph_freq.f90:     WRITE(stdout,'(2x,76("+"),/)')
+write_quadratic.f90:      WRITE(iu_mur,'( "# a (a.u.)       enthalpy (Ry)    pressure (kbar)" )')
+write_quadratic.f90:      WRITE(iu_mur,'( "# a (a.u.)       energy (Ry)      pressure (kbar)" )')
+write_quadratic.f90:         WRITE(iu_mur,'(3f20.10)') a, e, p + pressure_kb
+write_quadratic.f90:            WRITE(iu_mur,'(3f20.10)') x2(1), x2(2), e
+write_thermo.f90:WRITE(stdout,'(/,2x,76("+"))')
+write_thermo.f90:WRITE(stdout,'(5x,"Computing the thermodynamic properties from phonon dos")')
+write_thermo.f90:WRITE(stdout,'(5x,"Writing on file ",a)') TRIM(filetherm)
+write_thermo.f90:WRITE(stdout,'(2x,76("+"),/)')
+write_thermo.f90:                     WRITE(6,'(5x,"Computing temperature ", i5 " / ",&
+write_thermo.f90:WRITE(stdout,'(/,2x,76("+"))')
+write_thermo.f90:WRITE(stdout,'(5x,"Computing the thermodynamic properties from frequencies")')
+write_thermo.f90:WRITE(stdout,'(5x,"Writing on file ",a)') TRIM(filename)
+write_thermo.f90:WRITE(stdout,'(2x,76("+"),/)')
+write_thermo.f90:        WRITE(6,'(5x,"Computing temperature ", i5 " / ",&
+write_thermo.f90:WRITE(stdout,'(/,2x,76("+"))')
+write_thermo.f90:WRITE(stdout,'(5x,"Computing the thermodynamic properties from elastic constants")')
+write_thermo.f90:WRITE(stdout,'(5x,"Writing on file ",a)') TRIM(filename)
+write_thermo.f90:WRITE(stdout,'(2x,76("+"),/)')
+write_thermo.f90:   WRITE(iu_therm,'("# Zero point energy:", f8.5, " Ry/cell,", f9.5, &
+write_thermo.f90:      WRITE(iu_therm,'("# Temperature T in K, Debye temperature=",f12.3, &
+write_thermo.f90:      WRITE(iu_therm,'("# Temperature T in K, ")')
+write_thermo.f90:   WRITE(iu_therm,'("# Total number of states is:", f15.5,",")') tot_states
+write_thermo.f90:   WRITE(iu_therm,'("# Energy and free energy in Ry/cell,")')
+write_thermo.f90:   WRITE(iu_therm,'("# Entropy in Ry/cell/K,")')
+write_thermo.f90:   WRITE(iu_therm,'("# Heat capacity Cv in Ry/cell/K.")')
+write_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 to have energies in &
+write_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 x 23060.35 = 313 754.5 to have &
+write_thermo.f90:   WRITE(iu_therm,'("# Multiply by 13.6058 x 96526.0 = 1 313 313 to &
+write_thermo.f90:   WRITE(iu_therm,'("# N is the number of formula units per cell.")')
+write_thermo.f90:   WRITE(iu_therm,'("# For instance in silicon N=2. Divide by N to have &
+write_thermo.f90:   WRITE(iu_therm,'("#",5x,"   T  ", 10x, " energy ", 9x, "  free energy ",&
+write_thermo.f90:      WRITE(iu_therm, '(e16.8,4e20.12)') temp(itemp), energy(itemp), &
