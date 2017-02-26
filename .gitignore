@@ -1,4 +1,6 @@
 *.wfc*
+*.o
+*.mod
 *.xml
 *.UPF
 *.save/
